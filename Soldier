@@ -23,7 +23,6 @@ class Soldier{
     idleTime = 1;
     walkingSpeed = 4;
     isAlive = true;
-    img = soldier;
   }
   
   void move(){
