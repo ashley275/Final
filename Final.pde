@@ -79,13 +79,11 @@ void keyPressed(){
   switch(key){
     case 'r':
     soldiers[0][redLowSoldierUsed] = new Soldier(RED, 0, redLowSoldierUsed);
-    soldiers[0][redLowSoldierUsed].img = redSoldier;
     redLowSoldierUsed++;
     redLowSoldierAVL--;
     break;
     case 'b':
     soldiers[1][blueLowSoldierUsed] = new Soldier(BLUE, 19, blueLowSoldierUsed);
-    soldiers[1][blueLowSoldierUsed].img = blueSoldier;
     blueLowSoldierUsed++;
     blueLowSoldierAVL--;
     break;
