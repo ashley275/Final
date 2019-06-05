@@ -23,6 +23,7 @@ class Soldier{
     idleTime = 1;
     walkingSpeed = 4;
     isAlive = true;
+    img = (camp == RED) ? redSoldier : blueSoldier;
   }
   
   void move(){
@@ -38,7 +39,11 @@ class Soldier{
   }
   
   int reconEnemy(){
-    if(onEdge()) return -1;
+    if(onEdge()){
+      movement = ATTACK;
+      return -1;
+    }
+    
     int i = (camp == RED) ? 1 : 0;
     for(int j = 0; j < MAX_SOLDIER_NUM; j++){
       if(soldiers[i][j] == null) continue;
@@ -67,7 +72,7 @@ class Soldier{
     if(marchTimer == 0) marchTimer = (walkingTime + idleTime) * timeUnit;
     if(marchTimer > idleTime * timeUnit) x += walkingSpeed * camp;
     else if(marchTimer == idleTime * timeUnit){
-      col += camp;
+      col += camp;println(reconEnemy());
       if(reconEnemy() != -2) return;
     }else if(marchTimer % timeUnit == 0){
       if(reconEnemy() != -2) return;
