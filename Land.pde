@@ -11,10 +11,7 @@ class Land{
     camp = OWNERLESS;
   }
   
-  void cheeosUnlocked(){
-    if(camp == RED) redLandNum++;
-    if(camp == BLUE) blueLandNum++;
-    
+  void cheeosUnlocked(){ 
     if(redLandNum > 1);
     if(blueLandNum > 1);
   }
