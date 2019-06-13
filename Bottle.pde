@@ -100,6 +100,10 @@ class Bottle{
   void capture(int col, int row){
     for(col = 0; col < COL_NUM; col++){
       for(row = 0; row < ROW_NUM; row++){
+        if(lands[col][row].camp != 0 && lands[col][row].camp != camp){                    
+          redLandNum = (camp == RED) ? redLandNum + 1 : redLandNum - 1;
+          blueLandNum = (camp == BLUE) ? blueLandNum + 1 : blueLandNum - 1;
+        }
         lands[col][row].camp = camp;
         lands[col][row].img = (camp == RED) ? lands[col][row].redLand : lands[col][row].blueLand;
       }
