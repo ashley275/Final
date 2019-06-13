@@ -1,6 +1,7 @@
 class Bottle{
-  int x, y, col, row;
-  int water = 0, damage = 1;
+  int x, y, w, h, col;
+  int [] rows = new int [3];
+  int water = 0, damage;
   final int MAX_WATER = 100;
   
   int timeUnit = 20;
@@ -17,74 +18,46 @@ class Bottle{
   Bottle(int camp, int col, int row){    
     this.camp = camp;
     this.col = col;
-    this.row = row;
+    rows[0] = row;
     x = 160 + col * LAND_SIZE;
     y = 220 + row * LAND_SIZE;
+    w = LAND_SIZE;
+    h = LAND_SIZE;
     walkingTime = 1;
-    idleTime = 1;
     walkingSpeed = 4;
     water = MAX_WATER;
     isAlive = true;
     img = (camp == RED) ? redSoldier : blueSoldier;
   }
   
-  void move(){
+  void move(){   
+    if(reconEnemy() == -2) movement = MARCH;
+    else movement = ATTACK;
+    
     switch(movement){
       case MARCH:
-      if(reconEnemy() != -2){
-        movement = ATTACK;
-        break;
-      }
       march();
-      if(reconEnemy() != -2) movement = ATTACK;
       break; 
       
       case ATTACK:
-      attack();
-      if(water <= 0) isAlive = false;
-      if(reconEnemy() == -2) movement = MARCH;;
+      attack();      
       break;
     }
-  }
-  
-  int reconEnemy(){
-    if(onEdge()) return -1;
-    
-    int i = (camp == RED) ? 1 : 0;
-    for(int j = 0; j < MAX_SOLDIER_NUM; j++){
-      if(bottles[i][j] == null) continue;
-      if(bottles[i][j].row == row){
-          
-        if(bottles[i][j].col == (col + camp)) return j;
-        
-        if(bottles[i][j].col == (col + camp * 2) 
-        && bottles[i][j].x == x + (LAND_SIZE * camp)) return j;
-      }
-    }
-    return -2;
-  }  
-  
-  boolean onEdge(){
-    return (camp == RED && col == 19) || (camp == BLUE && col == 0);
+    if(water <= 0) isAlive = false;
   }
   
   void march(){
-                println(movement);
-    println("."+x);
-    println(".."+marchTimer);
-    println("..."+reconEnemy());
-    println("...."+col);
     if(marchTimer == 0) marchTimer = (walkingTime + idleTime) * timeUnit;
     
     if(marchTimer > idleTime * timeUnit) x += walkingSpeed * camp;                
     marchTimer--;
     
-    if(marchTimer == idleTime * timeUnit) col += camp;
-            println(movement);
-    println("."+x);
-    println(".."+marchTimer);
-    println("..."+reconEnemy());
-    println("...."+col); 
+    if(marchTimer == idleTime * timeUnit){
+      col += camp;
+      for(int i = 0; i < rows.length; i++){
+        capture(col, rows[i]);
+      }
+    }
   }
   
   void attack(){
@@ -95,6 +68,41 @@ class Bottle{
       || !bottles[i][reconEnemy()].isAlive) return;
       
       bottles[i][reconEnemy()].water -= damage;     
+    }
+  }
+  
+  int reconEnemy(){
+    if(onEdge()) return -1;
+    
+    int i = (camp == RED) ? 1 : 0;
+    for(int j = 0; j < MAX_SOLDIER_NUM; j++){
+      if(bottles[i][j] == null || !bottles[i][j].isAlive) continue;
+      
+      for(int a = 0; a < rows.length; a++){
+        for(int b = 0; b < rows.length; b++){
+          if(bottles[i][j].rows[a] == rows[b]){
+              
+            if(bottles[i][j].col == (col + camp)) return j;
+            
+            if(bottles[i][j].col == (col + camp * 2) 
+            && bottles[i][j].x == x + (LAND_SIZE * camp)) return j;
+          }
+        }
+      }
+    }
+    return -2;
+  } 
+  
+  boolean onEdge(){
+    return (camp == RED && col == 19) || (camp == BLUE && col == 0);
+  }
+  
+  void capture(int col, int row){
+    for(col = 0; col < COL_NUM; col++){
+      for(row = 0; row < ROW_NUM; row++){
+        lands[col][row].camp = camp;
+        lands[col][row].img = (camp == RED) ? lands[col][row].redLand : lands[col][row].blueLand;
+      }
     }
   }
     
