@@ -14,6 +14,17 @@ class Item {
     }
   }
   
+  void pickup(){
+  x=5000;
+  isAlive = false;
+  }
+  
+  void use(){
+  isAlive = true;
+  image(img,x,y);
+  
+  }
+  
   void checkCollision(Bottle bottle){}
 
   Item(float x, float y){
