@@ -61,7 +61,10 @@ class Bottle{
   }
   
   void attack(){
-    if(reconEnemy() == -1);
+    if(reconEnemy() == -1){
+      if(camp== RED)greenHP-=damage;
+      else redHP-= damage;
+    }
     else{
       int i = (camp == RED) ? 1 : 0;
       if(bottles[i][reconEnemy()] == null 
