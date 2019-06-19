@@ -115,10 +115,10 @@ void setup() {
   }
   
   bottles = new Bottle[2][MAX_SOLDIER_NUM];
-  redItemBar = new Bar(20, 900, 6);  
-  greenItemBar = new Bar(width - 20 - greenItemBar.w, 900, 6);
-  redBottleBar = new Bar(630, 900, 3);  
-  greenBottleBar = new Bar(width - 630 - greenBottleBar.w, 900, 3);
+  redItemBar = new Bar(6);  
+  greenItemBar = new Bar(6);
+  redBottleBar = new Bar(3);  
+  greenBottleBar = new Bar(3);
   
   items = new Item[8];
   for(int i = 0; i <3; i++){
@@ -239,8 +239,15 @@ void draw(){
       image(door,130,910);
       image(bomb,230,910);
       
-      redItemBar.displayItemNumber(90);
-      greenItemBar.displayItemNumber(1380);
+      redItemBar.display(20);
+      redItemBar.textNumber();
+      greenItemBar.display(width - 20 - greenItemBar.w);
+      redItemBar.textNumber();
+      redBottleBar.display(630);
+      redBottleBar.textNumber();
+      greenBottleBar.display(width - 630 - greenBottleBar.w);
+      redBottleBar.textNumber();
+      
       moveRect();
       for(int i=0; i<items.length; i++){
         items[i].display();
