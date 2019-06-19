@@ -115,10 +115,10 @@ void setup() {
   }
   
   bottles = new Bottle[2][MAX_SOLDIER_NUM];
-  redItemBar = new Bar(20, 900);  
-  greenItemBar = new Bar(width - 20 - greenItemBar.w, 900);
-  redBottleBar = new Bar(630, 900);  
-  greenBottleBar = new Bar(width - 630 - greenbottleBar.w, 900);
+  redItemBar = new Bar(20, 900, 6);  
+  greenItemBar = new Bar(width - 20 - greenItemBar.w, 900, 6);
+  redBottleBar = new Bar(630, 900, 3);  
+  greenBottleBar = new Bar(width - 630 - greenBottleBar.w, 900, 3);
   
   items = new Item[8];
   for(int i = 0; i <3; i++){
