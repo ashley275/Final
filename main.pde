@@ -64,8 +64,10 @@ int blueHighSoldierAVL = 0;
 Land lands [][];
 Bottle bottles [][];
 Item items [];
-ItemBar redItemBar;
-ItemBar greenItemBar;
+Bar redItemBar;
+Bar greenItemBar;
+Bar redBottleBar;
+Bar greenBottleBar;
 
 boolean move = false;
 
@@ -113,8 +115,10 @@ void setup() {
   }
   
   bottles = new Bottle[2][MAX_SOLDIER_NUM];
-  redItemBar = new ItemBar(10,10);
-  greenItemBar = new ItemBar(20,10);
+  redItemBar = new Bar(20, 900);  
+  greenItemBar = new Bar(width - 20 - greenItemBar.w, 900);
+  redBottleBar = new Bar(630, 900);  
+  greenBottleBar = new Bar(width - 630 - greenbottleBar.w, 900);
   
   items = new Item[8];
   for(int i = 0; i <3; i++){
