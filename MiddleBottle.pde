@@ -4,14 +4,15 @@ class MiddleBottle extends Bottle{
     water = 100;
     damage = 1;
     idleTime = 2;
+    img = (camp == RED) ? redSoldierMid : greenSoldierMid;
   }
   
   void move(){
+    super.move();
     int i = (camp == RED) ? 1 : 0;
     for(int j = 0; j < MAX_SOLDIER_NUM; j++){
-      areaOfEffect(bottles[i][j]);
-    }
-    super.move();
+      if(bottles[i][j] != null) areaOfEffect(bottles[i][j]);
+    }    
   }
   
   void areaOfEffect(Bottle bottle){

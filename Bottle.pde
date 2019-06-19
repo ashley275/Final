@@ -27,7 +27,6 @@ class Bottle{
     walkingSpeed = 4;
     water = MAX_WATER;
     isAlive = true;
-    img = (camp == RED) ? redSoldier : blueSoldier;
   }
   
   void move(){   
@@ -97,7 +96,7 @@ class Bottle{
   } 
   
   boolean onEdge(){
-    return (camp == RED && col == 19) || (camp == BLUE && col == 0);
+    return (camp == RED && col == 19) || (camp == GREEN && col == 0);
   }
   
   void capture(int col, int row){
@@ -105,10 +104,10 @@ class Bottle{
       for(row = 0; row < ROW_NUM; row++){
         if(lands[col][row].camp != 0 && lands[col][row].camp != camp){                    
           redLandNum = (camp == RED) ? redLandNum + 1 : redLandNum - 1;
-          blueLandNum = (camp == BLUE) ? blueLandNum + 1 : blueLandNum - 1;
+          greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
         }
         lands[col][row].camp = camp;
-        lands[col][row].img = (camp == RED) ? lands[col][row].redLand : lands[col][row].blueLand;
+        //lands[col][row].img = (camp == RED) ? lands[col][row].redLand : lands[col][row].blueLand;
       }
     }
   }
