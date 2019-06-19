@@ -4,7 +4,12 @@ class MiddleBottle extends Bottle{
     water = 100;
     damage = 1;
     idleTime = 2;
-    img = (camp == RED) ? redSoldierMid : greenSoldierMid;
+    marchImg = (camp == RED) ? loadImage("img/redSoldierMid") : loadImage("img/greenSoldierMid");
+    attackImg = (camp == RED) ? loadImage("img/redSoldierMidFighting") : loadImage("img/greenSoldierMidFighting");
+  }
+  
+  void display(){
+    image(img, x - LAND_SIZE, y- LAND_SIZE);
   }
   
   void move(){
@@ -16,12 +21,13 @@ class MiddleBottle extends Bottle{
   }
   
   void areaOfEffect(Bottle bottle){
-    if((camp == RED && x + LAND_SIZE * 2 > bottle.x && x < bottle.x + LAND_SIZE)
-    || (camp == GREEN && x + LAND_SIZE > bottle.x && x - LAND_SIZE < bottle.x + LAND_SIZE)){
+    if(x + LAND_SIZE * 2 > bottle.x && x - LAND_SIZE < bottle.x + LAND_SIZE){
       if(bottle.rows[0] == rows[0] - 1 || bottle.rows[2] == rows[0] - 1 ||
          bottle.rows[0] == rows[0] + 1 || bottle.rows[2] == rows[0] + 1 ){
         bottle.water -= damage;
       }
     }
   }
+  
+
 }

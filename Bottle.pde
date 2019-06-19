@@ -1,10 +1,10 @@
 class Bottle{
   int x, y, w, h, col;
-  int [] rows = new int [3];
+  int [] rows = {-1, -1, -1};
   int water = 0, damage;
   final int MAX_WATER = 100;
   
-  int timeUnit = 20;
+  int timeUnit = 10;
   int marchTimer = 0, attackTimer = 0;
   int idleTime, walkingTime, coolDownTime = 1;
   int walkingSpeed;
@@ -13,7 +13,7 @@ class Bottle{
   int camp;
   int movement = 0;
   final int MARCH = 0, ATTACK = 1;
-  PImage img;
+  PImage img, marchImg, attackImg;
   
   Bottle(int camp, int col, int row){    
     this.camp = camp;
@@ -24,7 +24,7 @@ class Bottle{
     w = LAND_SIZE;
     h = LAND_SIZE;
     walkingTime = 1;
-    walkingSpeed = 4;
+    walkingSpeed = 8;
     water = MAX_WATER;
     isAlive = true;
   }
@@ -35,10 +35,12 @@ class Bottle{
     
     switch(movement){
       case MARCH:
+      img = marchImg;
       march();
       break; 
       
       case ATTACK:
+      img = attackImg;
       attack();      
       break;
     }
@@ -61,7 +63,7 @@ class Bottle{
   
   void attack(){
     if(reconEnemy() == -1){
-      if(camp== RED)greenHP-=damage;
+      if(camp== RED) greenHP-=damage;
       else redHP-= damage;
     }
     else{
@@ -107,12 +109,10 @@ class Bottle{
           greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
         }
         lands[col][row].camp = camp;
-        //lands[col][row].img = (camp == RED) ? lands[col][row].redLand : lands[col][row].blueLand;
       }
     }
   }
     
   void display(){
-    image(img, x, y);
   }  
 }
