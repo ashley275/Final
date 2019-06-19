@@ -4,5 +4,6 @@ class SmallBottle extends Bottle{
     water = 100;
     damage = 2;
     idleTime = 1;
+    img = (camp == RED) ? redSoldierNormal : greenSoldierNormal;
   }  
 }

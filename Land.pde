@@ -7,7 +7,7 @@ class Land{
     this.row = row;
     this.camp = camp;
     redLand = loadImage("img/redLand.png");
-    blueLand = loadImage("img/blueLand.png");
+    greenLand = loadImage("img/greenLand.png");
     ownerlessLand = loadImage("img/ownerlessLand.png");
   }
   
@@ -21,8 +21,8 @@ class Land{
       case RED:
       img = redLand;
       break;
-      case BLUE:
-      img = blueLand;
+      case GREEN:
+      img = greenLand;
       break;
       case OWNERLESS:
       img = ownerlessLand;
