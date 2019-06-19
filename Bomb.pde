@@ -1,11 +1,11 @@
-class Blood extends Item{
+class Bomb extends Item{ 
   
-  Blood(float x, float y){
+  Bomb(float x, float y){
     super(x,y);
-    imgPick=bloodball; 
-    imgUse=blood;
+    imgPick = bombball;
+    imgUse = bomb;
+    
   }
-  
   void display(){
     int showTimer;
     if(isAlive==true){
@@ -20,31 +20,28 @@ class Blood extends Item{
       }
     }
   }
-  
+
   int checkCollision(Bottle bottle){
-    if(itemState == ITEM_PICK_STATE){
+    if(itemState == ITEM_PICK_STATE ){
       if(isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
         isAlive=false;
         itemState = ITEM_USE_STATE;
         return 1;
       }else return 0 ;
     }
-    else if(itemState == ITEM_USE_STATE){
+    if(itemState == ITEM_USE_STATE){
       if(isHit(x-LAND_SIZE, y-LAND_SIZE, 3*LAND_SIZE, 3*LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
         isAlive=false;
         return 1;
       }else return 0 ;
     
     }
-     else return 0;
+     else return 0 ;
    }
-  
-  void collision(Bottle bottle){ 
+   void collision(Bottle bottle){ 
        
-        bottle.water+=10;
+        bottle.water-=10;
         
         
     }
-     
-  
-}
+  }

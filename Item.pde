@@ -4,7 +4,7 @@ class Item {
   float w = LAND_SIZE;
   float h = LAND_SIZE;
   PImage imgPick, imgUse;
-  final int ITEM_PICK_STATE = 0,ITEM_USE_STATE = 1;
+
   int itemState =0;
   int itemKind;
   

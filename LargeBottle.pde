@@ -7,11 +7,6 @@ class LargeBottle extends Bottle{
     for(int i = 0; i < rows.length; i++){
       rows[i] = row + i;
     }
-  }
-  
-  void display(){
-    image(img, x, y);
-    image(img, x, y + LAND_SIZE);
-    image(img, x, y + LAND_SIZE * 2);
+    img = (camp == RED) ? redSoldierHigh : greenSoldierHigh;
   }
 }
