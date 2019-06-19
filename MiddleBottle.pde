@@ -16,9 +16,11 @@ class MiddleBottle extends Bottle{
   
   void areaOfEffect(Bottle bottle){
     if((camp == RED && x + LAND_SIZE * 2 > bottle.x && x < bottle.x + LAND_SIZE)
-    || (camp == GREEN && x + LAND_SIZE > bottle.x && x - LAND_SIZE < bottle.x + LAND_SIZE){
-      if(bottle.row == row - 1 || bottle.row == row + 1){
+    || (camp == GREEN && x + LAND_SIZE > bottle.x && x - LAND_SIZE < bottle.x + LAND_SIZE)){
+      if(bottle.rows[0] == rows[0] - 1 || bottle.rows[2] == rows[0] - 1 ||
+         bottle.rows[0] == rows[0] + 1 || bottle.rows[2] == rows[0] + 1 ){
         bottle.water -= damage;
       }
+    }
   }
 }
