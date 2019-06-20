@@ -18,8 +18,9 @@ class Banana extends Item{
   }
   
     int checkCollision(Bottle bottle){
-    if(isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
+    if(bottle!=null&&isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
         isAlive=false;
+        
         return 1;        
     }else return 0 ;
      
@@ -28,12 +29,13 @@ class Banana extends Item{
 void collision(Bottle bottle){
   int moveTimer = 40;
     moveTimer--;
-    if(moveTimer>0){
+    if(bottle!=null){if(moveTimer>0){
       if(bottle.camp == RED){
         bottle.x-=3*LAND_SIZE/40 ;
       }
       if(bottle.camp == GREEN){
         bottle.x+=3*LAND_SIZE/40 ;
+      }
       }
     }
   }

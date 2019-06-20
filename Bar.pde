@@ -10,14 +10,12 @@ class Bar{
   Bar(int num){      
     spaceNum = num;
     y = 900;
+    for(int i = 0; i < num; i++){
+      barNumber[i] = 0;
+    }
   }
   
-  void display(float x){
-    this.x = x;
-    //image = (img, x, y);
-  }
-  
-  void textNumber(){
+  void textNumber(float x){
     for(int i = 0; i < barNumber.length; i++){
       if(barNumber[i] != -1){
         fill(0, 0, 0);

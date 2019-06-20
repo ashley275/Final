@@ -1,26 +1,28 @@
 boolean samePlace1,samePlace2;
-PImage bg, gamestart, gameover;
-PImage startNormal, startHovered, restartNormal, restartHovered;
+PImage bg, gamestart, gameover, gameread;
+PImage startNormal, startHovered, restartNormal, restartHovered, skipNormal, skipHovered ;
 PImage banana, banana1, banana2, banana3, ice, blood, bomb, door, trap;
 PImage explosion;
-PImage itemBar;
+PImage itemBar, redSoldierBar, greenSoldierBar;
 PImage redChoose, greenChoose, redChooseProp, greenChooseProp;
 PImage bananaball, iceball, bloodball, bombball, doorball, trapball;
 
-PImage redSoldierNormal, redSoldierMid, redSoldierHigh, redSoldierFighting;
-PImage greenSoldierNormal, greenSoldierMid, greenSoldierHigh, greenSoldierFighting;
+PImage redSoldierNormal, redSoldierMid, redSoldierHigh, redSoldierFighting, redSoldierMidFighting, redSoldierHighFighting;
+PImage greenSoldierNormal, greenSoldierMid, greenSoldierHigh, greenSoldierFighting, greenSoldierMidFighting, greenSoldierHighFighting;
 PImage redLand, greenLand, ownerlessLand;
 
 PImage redTower, greenTower;
 PImage towerHealthBar, redTowerHealthBarCover, greenTowerHealthBarCover;
 
+PImage bolbNormal, kappaNormal, bolbAward, kappaAward;
+
 //gamestate
-final int GAME_START = 0, GAME_SET = 1, GAME_FIGHT = 2, GAME_OVER = 3;
+final int GAME_START = 0, GAME_READ=1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER = 4;
 int gameState = 0;
 int round = 0;
-int gameTimer = 2400;
-final int GAMETIME = 2400;
-
+int gameTimer = 0;
+final int GAME_PUT_TIME = 400, GAME_TIME = 800;
+ 
 //HP
 int HEALTH_POINT = 500;
 int redHP = HEALTH_POINT;
@@ -46,12 +48,23 @@ int RedRectCol = 0, RedRectRow = 0;
 int GreenRectCol = 0, GreenRectRow = 0;
 
 //button
-/*
-final int START_BUTTON_WIDTH = 144;
-final int START_BUTTON_HEIGHT = 60;
-final int START_BUTTON_X = 248;
-final int START_BUTTON_Y = 360;
-*/
+
+final int START_BUTTON_WIDTH = 300;
+final int START_BUTTON_HEIGHT = 100;
+final int START_BUTTON_X = 800;
+final int START_BUTTON_Y = 700;
+
+final int RESTART_BUTTON_WIDTH = 450;
+final int RESTART_BUTTON_HEIGHT = 130;
+final int RESTART_BUTTON_X = 750;
+final int RESTART_BUTTON_Y = 800;
+
+final int SKIP_BUTTON_WIDTH = 300;
+final int SKIP_BUTTON_HEIGHT = 100;
+final int SKIP_BUTTON_X = 1600;
+final int SKIP_BUTTON_Y = 900;
+
+float redCoverH=0, greenCoverH=0;
 
 //soldier
 int soldierLevel = 0;
@@ -87,20 +100,27 @@ Bottle bottles [][];
 Item items [];
 Bar redItemBar;
 Bar greenItemBar;
+Bar redBottleBar;
+Bar greenBottleBar;
 
 boolean move = false;
+PFont font;
+
 
 void setup() {
   size(1920,1080);
   frameRate(40);
   bg = loadImage("img/bg.png");
-  /*gamestart = loadImage("img/gamestart.png");
+  gamestart = loadImage("img/gamestart.png");
   gameover = loadImage("img/gameover.png");
+  gameread = loadImage("img/gameread.png");
   startNormal = loadImage("img/startNormal.png");
   startHovered = loadImage("img/startHovered.png");
   restartNormal = loadImage("img/restartNormal.png");
   restartHovered = loadImage("img/restartHovered.png");
-  */
+  skipNormal = loadImage("img/skipNormal.png");
+  skipHovered = loadImage("img/skipHovered.png");
+  
   //choose
   redChoose = loadImage("img/redChoose.png");
   greenChoose = loadImage("img/greenChoose.png");
@@ -109,6 +129,8 @@ void setup() {
   
   //item
   itemBar = loadImage("img/itemBar.png");
+  redSoldierBar = loadImage("img/redSoldierBar.png");
+  greenSoldierBar = loadImage("img/greenSoldierBar.png");
   banana = loadImage("img/banana.png");
   banana1 = loadImage("img/banana1.png");
   banana2 = loadImage("img/banana2.png");
@@ -129,18 +151,32 @@ void setup() {
   redSoldierNormal = loadImage("img/redSoldierNormal.png");
   redSoldierMid = loadImage("img/redSoldierMid.png");
   redSoldierHigh = loadImage("img/redSoldierHigh.png");  
-  redSoldierFighting = loadImage("img/redSoldierFighting.png");  
+  redSoldierFighting = loadImage("img/redSoldierFighting.png"); 
+  redSoldierMidFighting = loadImage("img/redSoldierMidFighting.png");
+  redSoldierHighFighting = loadImage("img/redSoldierHighFighting.png");  
+  
   greenSoldierNormal = loadImage("img/greenSoldierNormal.png");  
   greenSoldierMid = loadImage("img/greenSoldierMid.png");  
   greenSoldierHigh = loadImage("img/greenSoldierHigh.png");
   greenSoldierFighting = loadImage("img/greenSoldierFighting.png");
+  greenSoldierMidFighting = loadImage("img/greenSoldierMidFighting.png");
+  greenSoldierHighFighting = loadImage("img/greenSoldierHighFighting.png");
   
+  //Tower
   redTower = loadImage("img/redTower.png"); 
   greenTower = loadImage("img/greenTower.png");
   towerHealthBar = loadImage("img/towerHealthBar.png");
   redTowerHealthBarCover = loadImage("img/redTowerHealthBarCover.png");
   greenTowerHealthBarCover = loadImage("img/greenTowerHealthBarCover.png");
  
+  //name
+  bolbNormal = loadImage("img/bolbNormal.png"); 
+  bolbAward = loadImage("img/bolbAward.png"); 
+  kappaNormal = loadImage("img/kappaNormal.png"); 
+  kappaAward = loadImage("img/kappaAward.png"); 
+
+  
+  
   lands = new Land [COL_NUM][ROW_NUM];
   for(int col =0;col<COL_NUM;col++){
     for(int row = 0; row<ROW_NUM;row++){
@@ -155,8 +191,10 @@ void setup() {
   }
   
   bottles = new Bottle[2][MAX_SOLDIER_NUM];
-  redItemBar = new Bar(10);
-  greenItemBar = new Bar(20);
+  redItemBar = new Bar(6);
+  greenItemBar = new Bar(6);
+  redBottleBar = new Bar(3);
+  greenBottleBar = new Bar(3);
   
   items = new Item[24];
   for(int i = 0; i <3; i++){
@@ -234,38 +272,84 @@ void setup() {
       }
   }
    
-   gameTimer = 2400;
+   
+   font = createFont("font.ttf",100);
 }
 
 
 void initGame(){
+  image(redTower,0,220);
+  image(greenTower,1760,220);
+  image(towerHealthBar, 40 , 280);
+  image(towerHealthBar, width-40 , 280);
   
+  //itemBar
+  image(itemBar,20,900);
+  image(itemBar,1300,900);
+  redItemBar.textNumber(20);
+  greenItemBar.textNumber(width - 600 - 20);
+  redBottleBar.textNumber(630);
+  greenBottleBar.textNumber(width - 300 - 630);
+  image(redSoldierBar,630,900);
+  image(greenSoldierBar,990,900);
+  
+  image(bolbNormal, 160, 60);
+  image(kappaNormal, 1460, 60,300,130);
 }
 
 void draw(){
   switch(gameState){
     
     case GAME_START:
+   
     image(bg, 0, 0, 1920, 1080);
-    drawGameRound("GAME START",#88FFDB);
-    rect(12,12,12,12);
-    /*
-      if(isMouseHit(START_BUTTON_X, START_BUTTON_Y, START_BUTTON_WIDTH, START_BUTTON_HEIGHT)) {
-  
-        image(startHovered, START_BUTTON_X, START_BUTTON_Y);
-        if(mousePressed){
-          gameState = GAME_SET;
-          mousePressed = false;
-        }
-      }else{
-        image(startNormal, START_BUTTON_X, START_BUTTON_Y);
+    
+    
+    image(gamestart,0,0);
+
+    if(START_BUTTON_X + START_BUTTON_WIDTH > mouseX
+      && START_BUTTON_X < mouseX
+      && START_BUTTON_Y + START_BUTTON_HEIGHT > mouseY
+      && START_BUTTON_Y < mouseY) {
+
+      image(startHovered, START_BUTTON_X, START_BUTTON_Y);
+      if(mousePressed){
+        gameState = GAME_READ;
+        round=0;
+        gameTimer = GAME_PUT_TIME*(round+1);
+        mousePressed = false;
       }
-    */
-      break;
+
+    }else{
+
+      image(startNormal, START_BUTTON_X, START_BUTTON_Y);
+
+    }
+    
+    break;
+     
+     case GAME_READ:
+        image(gameread,0,0);
+        if(SKIP_BUTTON_X + SKIP_BUTTON_WIDTH > mouseX
+          && SKIP_BUTTON_X < mouseX
+          && SKIP_BUTTON_Y + SKIP_BUTTON_HEIGHT > mouseY
+          && SKIP_BUTTON_Y < mouseY) {
+    
+          image(skipHovered, SKIP_BUTTON_X, SKIP_BUTTON_Y);
+          if(mousePressed){
+            gameState = GAME_SET;
+            mousePressed = false;
+          }
+    
+        }else{
+    
+          image(skipNormal, SKIP_BUTTON_X, SKIP_BUTTON_Y);
+    
+        }
+        break;
       
     case GAME_SET:
       image(bg, 0, 0, 1920, 1080);
-      drawGameRound("GAME SET",#000055);
       gameTimer--;
       
       for(int col = 0; col < COL_NUM; col++){
@@ -274,11 +358,7 @@ void draw(){
         }
       }
       
-      //itemBar
-      image(itemBar,20,900);
-      image(itemBar,1300,900);
-      redItemBar.display(90);
-      greenItemBar.display(1380);
+      initGame();
       
       //item display
       for(int i=0; i<items.length; i++){
@@ -295,31 +375,61 @@ void draw(){
       } 
       
       timeCountdown();
+      showRound();
       moveRect();
+      
+
+      if(redHP!=HEALTH_POINT){
+        map(100, 38, 38, 280, 400);
+        image(redTowerHealthBarCover, 38, 280 , 38 , redCoverH);
+        redCoverH = HEALTH_POINT-redHP;
+      }
+      if(greenHP!=HEALTH_POINT){
+        map(100, 38, 38, 280, 400);
+        image(greenTowerHealthBarCover,width-38, 280 , width-38 , greenCoverH);
+        greenCoverH = HEALTH_POINT-greenHP;
+      }
       
       if (gameTimer ==0){
         gameState = GAME_FIGHT;
-        gameTimer = GAMETIME;
+        gameTimer = GAME_TIME;
       }
+      
+      //      for(int col =0;col<COL_NUM;col++){
+      //for(int row = 0; row<ROW_NUM;row++){
+      //lands[col][row].hasBottle = false;
+      //}
+      //}
+      //for(int i = 0; i < 2; i++){
+      //for(int j = 0; j < MAX_SOLDIER_NUM; j++){
+      //for(int k = 0; k < bottles[i][j].rows.length; k++){
+      //lands[bottles[i][j].col][bottles[i][j].rows[k]].hasBottle = true;
+      //}
+      //}
+      //}
+      
+      
       
       break;
     
     case GAME_FIGHT:
       image(bg, 0, 0, 1920, 1080);
       drawGameRound("GAME FIGHT",#000055);
-      gameTimer--;
       
-      //itemBar
-      image(itemBar,20,900);
-      image(itemBar,1300,900);
-      redItemBar.display(90);
-      greenItemBar.display(1380);    
-      redItemBar.display(90);
-      greenItemBar.display(1380);
+      gameTimer--;
+      timeCountdown();
+      showRound();
+      initGame();
       
       //item display
       for(int i=0; i<items.length; i++){
         if(items[i]!=null)items[i].display();
+      }
+      
+      for(int col = 0; col < COL_NUM; col++){
+        for(int row = 0; row < ROW_NUM; row++){
+          lands[col][row].display();
+        }
       }
 
       //soldier
@@ -331,17 +441,18 @@ void draw(){
           }
         }
       }
+      //red pick up item
       for(int k=0 ; k<items.length ; k++){
         for(int j=0 ; j<MAX_SOLDIER_NUM ; j++){
           if(items[k]!=null && items[k].isAlive){
             if(bottles[0][j]!= null){
               if(items[k].itemState == ITEM_PICK_STATE){
-               if(items[k].checkCollision(bottles[0][j])==1){
+               if(items[k].checkCollision(bottles[0][j])==1){ items[k].itemState = ITEM_USE_STATE;
                  if(items[k].itemKind == 1) redItemBar.barNumber[BLOOD]++ ; 
                  if(items[k].itemKind == 2) redItemBar.barNumber[BANANA]++ ;
                  if(items[k].itemKind == 3) redItemBar.barNumber[DOOR]++ ;
                  if(items[k].itemKind == 4) redItemBar.barNumber[BOMB]++ ;
-                 if(items[k].itemKind == 5) redItemBar.barNumber[ICE]++ ;
+                 if(items[k].itemKind == 5) redItemBar.barNumber[ICE]++ ; 
                  if(items[k].itemKind == 6) redItemBar.barNumber[TRAP]++ ;
                }
                }
@@ -349,12 +460,52 @@ void draw(){
          }
        }
      }
+     //red use item
      
+     for(int k=0 ; k<items.length ; k++){
+        for(int j=0 ; j<MAX_SOLDIER_NUM ; j++){
+          if(items[k]!=null && items[k].isAlive){
+            if(bottles[0][j]!= null){
+              if(items[k].itemState == ITEM_USE_STATE){
+               if(items[k].checkCollision(bottles[0][j])==1){
+                 //if(items[k].itemKind == 1) items[k].collision(bottles[0][j]);
+                 //if(items[k].itemKind == 2) items[k].collision(bottles[0][j]); 
+                 //if(items[k].itemKind == 3) items[k].collision(bottles[0][j]); 
+                 //if(items[k].itemKind == 4) items[k].collision(bottles[0][j]);
+                 //if(items[k].itemKind == 5) /*bottles[1][j].freeze();*/
+                 /*if(items[k].itemKind == 6)*/ items[k].collision(bottles[0][j]); 
+                 println(bottles[0][j].isAlive);
+               }
+               }
+             }
+         }
+       }
+     }
+     //green use item
+     for(int k=0 ; k<items.length ; k++){
+        for(int j=0 ; j<MAX_SOLDIER_NUM ; j++){
+          if(items[k]!=null && items[k].isAlive){
+            if(bottles[0][j]!= null){
+              if(items[k].itemState == ITEM_USE_STATE){
+               if(items[k].checkCollision(bottles[1][j])==1){
+                 if(items[k].itemKind == 1) items[k].collision(bottles[1][j]);
+                 if(items[k].itemKind == 2) items[k].collision(bottles[1][j]);
+                 if(items[k].itemKind == 3) items[k].collision(bottles[1][j]);
+                 if(items[k].itemKind == 4) items[k].collision(bottles[1][j]);
+                 if(items[k].itemKind == 5) /*bottles[1][j].freeze();*/
+                 if(items[k].itemKind == 6) items[k].collision(bottles[1][j]);
+               }
+               }
+             }
+         }
+       }
+     }
+     //green pick up item
      for(int k=0 ; k<items.length ; k++){
         for(int j=0 ; j<MAX_SOLDIER_NUM ; j++){
           if(items[k]!=null && items[k].isAlive && bottles[1][j]!= null){
             if(items[k].itemState == ITEM_PICK_STATE){
-             if(items[k].checkCollision(bottles[1][j])==1){
+             if(items[k].checkCollision(bottles[1][j])==1){ items[k].itemState = ITEM_USE_STATE;
                if(items[k].itemKind == 1) greenItemBar.barNumber[BLOOD]++ ; 
                if(items[k].itemKind == 2) greenItemBar.barNumber[BANANA]++ ;
                if(items[k].itemKind == 3) greenItemBar.barNumber[DOOR]++ ;
@@ -367,40 +518,66 @@ void draw(){
        }
      }
      
+ 
+
+      moveRect();
+     
       if (gameTimer ==0){
         round++;
         gameState = GAME_SET;
-        gameTimer = GAMETIME;
+        gameTimer = GAME_PUT_TIME*(round+1);
       }
       if ((gameTimer ==0 && round ==2)|| redHP==0 || greenHP ==0){
           gameState = GAME_OVER;
       }
     
+      if (round== 3)gameState = GAME_OVER;  //gameover
+      if(redHP<=0 || greenHP<=0 ) gameState = GAME_OVER;
       break;
       
     case GAME_OVER:
       image(bg, 0, 0, 1920, 1080);
       drawGameRound("GAME OVER",#000055);
       
-      if(redHP==0){}
-      else if(greenHP==0){}
-      else if(redLandNum>greenLandNum){}
-      else if(redLandNum>greenLandNum){}
-     // else {draw}
-    /*
-      if(isMouseHit(START_BUTTON_X, START_BUTTON_Y, START_BUTTON_WIDTH, START_BUTTON_HEIGHT)){
-  
-        image(restartHovered, START_BUTTON_X, START_BUTTON_Y);
-        if(mousePressed){
-          gameState = GAME_SET;
-          mousePressed = false;
-          initGame();
-        }
-      }else{
-        image(restartNormal, START_BUTTON_X, START_BUTTON_Y);
-      }
-    */
-      break;
+       String winnerText="WIN";
+          image(gameover, 0, 0);
+          if(redHP<=0 ||  redLandNum< greenLandNum){
+            winnerText = "THE WINNER IS KAPPA!";
+            image(kappaAward,500,600);
+            image(bolbNormal,1220,600);
+          }
+          if(greenHP<=0 || redLandNum> greenLandNum){
+            winnerText = "THE WINNER IS BOLB!";
+            image(bolbAward,500,600);
+            image(kappaNormal,1220,600);
+          }
+          if(redLandNum== greenLandNum)winnerText = "EVEN";
+          textAlign(CENTER);
+          textFont(font,50);
+          text(winnerText,width/2,height/2-100);
+          
+          
+          
+          
+          if(RESTART_BUTTON_X + RESTART_BUTTON_WIDTH > mouseX
+            && RESTART_BUTTON_X < mouseX
+            && RESTART_BUTTON_Y + RESTART_BUTTON_HEIGHT > mouseY
+            && RESTART_BUTTON_Y < mouseY) {
+      
+            image(restartHovered, RESTART_BUTTON_X, RESTART_BUTTON_Y);
+            if(mousePressed){
+              gameState = GAME_SET;
+              mousePressed = false;
+              initGame();
+            }
+      
+          }else{
+      
+            image(restartNormal, RESTART_BUTTON_X, RESTART_BUTTON_Y);
+      
+          }
+         
+            break;
   }
 }
 
@@ -429,19 +606,16 @@ void drawGameRound(String text, color textColor){
 
 String convertFrameToTimeString(int frames){
   String result = "";
-  float totalSeconds = float(frames) / 60;
+  float totalSeconds = float(frames) / 40;
   result += nf(floor(totalSeconds), 2);
   
   return result;
 }
 
-PFont font;
-font = createFont("font",100);
-
 void showRound(){
   textFont(font,110);
   textAlign(CENTER);
-  String roundString = "ROUND" + round;
+  String roundString = "ROUND:" + (round+1);
   fill(0, 120);  
   text(roundString, width/2, 200);
   fill(#00ffff);
@@ -452,13 +626,13 @@ void timeCountdown(){
   textFont(font,110);
   textAlign(CENTER);
   String timeString = convertFrameToTimeString(gameTimer);
-  timeString += "TIME" ;
+  timeString = "TIME:" + timeString;
   fill(0, 120);  
   text(timeString, width/2, 100);
   fill(#00ffff);
   text(timeString, width/2+10, 110);
   
-  gameTimer --;
+  
 }
 
 void moveRect(){
@@ -535,42 +709,68 @@ void keyPressed(){
       break;
       
       //Put red bottle
-      case 'z':
-      bottles[0][redBottleUsed] = new SmallBottle(RED, redChooseCol, redChooseRow);
-      redBottleUsed++;
-      redSmallBottleAVL--;
-      break;
-      case 'x':
-      bottles[0][redBottleUsed] = new MiddleBottle(RED, redChooseCol, redChooseRow);
-      redBottleUsed++;
-      redMiddleBottleAVL--;
-      break;
-      case 'c':
-      bottles[0][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
-      redBottleUsed++;
-      redLargeBottleAVL--;
-      break;
-      
-      //Put green bottle
-      case '1':
-      bottles[1][greenBottleUsed] = new SmallBottle(GREEN, greenChooseCol, greenChooseRow);
-      greenBottleUsed++;
-      greenSmallBottleAVL--;
-      break;
-      case '2':
-      bottles[1][greenBottleUsed] = new MiddleBottle(GREEN, greenChooseCol, greenChooseRow);
-      greenBottleUsed++;
-      greenMiddleBottleAVL--;
-      break;
-      case '3':
-      bottles[1][greenBottleUsed] = new LargeBottle(GREEN, greenChooseCol, greenChooseRow);
-      greenBottleUsed++;
-      greenLargeBottleAVL--;
-      break;
-      }
+    case 'z':
+    if(lands[redChooseCol][redChooseRow].hasBottle == false){
+    bottles[0][redBottleUsed] = new SmallBottle(RED, redChooseCol, redChooseRow);
+    redBottleUsed++;
+    redSmallBottleAVL--;
+    lands[redChooseCol][redChooseRow].hasBottle = true;
+    }
+    break;
+    case 'x':
+    if(lands[redChooseCol][redChooseRow].hasBottle == false
+    && redChooseCol > 0 && redChooseCol < 19
+    && redChooseRow > 0 && redChooseRow < 7){
+    bottles[0][redBottleUsed] = new MiddleBottle(RED, redChooseCol, redChooseRow);
+    redBottleUsed++;
+    redMiddleBottleAVL--;
+    lands[redChooseCol][redChooseRow].hasBottle = true;
+    }
+    break;
+    case 'c':
+    if(lands[redChooseCol][redChooseRow].hasBottle == false && redChooseRow < 6){
+    bottles[0][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
+    redBottleUsed++;
+    redLargeBottleAVL--;
+    for(int i = 0; i < 3; i++){
+    lands[redChooseCol][redChooseRow + i].hasBottle = true;
+    }
+    }
+    break;
+    
+    //Put green bottle
+    case '1':
+    if(lands[greenChooseCol][greenChooseRow].hasBottle == false){
+    bottles[1][greenBottleUsed] = new SmallBottle(GREEN, greenChooseCol, greenChooseRow);
+    greenBottleUsed++;
+    greenSmallBottleAVL--;
+    lands[greenChooseCol][greenChooseRow].hasBottle = true;
+    }
+    break;
+    case '2':
+    if(lands[greenChooseCol][greenChooseRow].hasBottle == false
+    && greenChooseCol > 0 && greenChooseCol < 19
+    && greenChooseRow > 0 && greenChooseRow < 7){
+    bottles[1][greenBottleUsed] = new MiddleBottle(GREEN, greenChooseCol, greenChooseRow);
+    greenBottleUsed++;
+    greenMiddleBottleAVL--;
+    lands[greenChooseCol][greenChooseRow].hasBottle = true;
+    }
+    break;
+    case '3':
+    if(lands[greenChooseCol][greenChooseRow].hasBottle == false && greenChooseRow < 6){
+    bottles[1][greenBottleUsed] = new LargeBottle(GREEN, greenChooseCol, greenChooseRow);
+    greenBottleUsed++;
+    greenLargeBottleAVL--;
+    for(int i = 0; i < 3; i++){
+    lands[greenChooseCol][greenChooseRow + i].hasBottle = true;
+    }
+    }
+    break;
+    }
     } //<>//
     
-  /*if(gameState == GAME_FIGHT){
+  if(gameState == GAME_FIGHT){
     switch(keyCode){
       case LEFT:
       if(greenChooseCol > 0 && lands[greenChooseCol - 1][greenChooseRow].camp == GREEN){
@@ -597,8 +797,8 @@ void keyPressed(){
       }
       break;
       }
-    }
-    }
+    
+    
     switch(key){
       case 'a':
         if(redChooseCol > 0 && lands[redChooseCol - 1][redChooseRow].camp == RED){
@@ -629,11 +829,14 @@ void keyPressed(){
         
       case  'z' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 1 && redItemBar.barNumber[BLOOD]>0){
+              items[k].isAlive = true;
               items[k].display();
-              redItemBar.barNumber[BLOOD]--;
+              redItemBar.barNumber[BLOOD]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
             }
           }
         }
@@ -641,11 +844,14 @@ void keyPressed(){
           break ;
       case  'x' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 2 && redItemBar.barNumber[BANANA]>0){
+              items[k].isAlive = true;
               items[k].display();
-              redItemBar.barNumber[BANANA]--;
+              redItemBar.barNumber[BANANA]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
             }
           }
         }
@@ -653,11 +859,14 @@ void keyPressed(){
           break ;
       case  'c' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 3 && redItemBar.barNumber[DOOR]>0){
+              items[k].isAlive = true;
               items[k].display();
-              redItemBar.barNumber[DOOR]--;
+              redItemBar.barNumber[DOOR]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
             }
           }
         }
@@ -665,11 +874,14 @@ void keyPressed(){
           break ;
       case  'v' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null ){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 4 && redItemBar.barNumber[BOMB]>0){
+              items[k].isAlive = true;
               items[k].display();
-              redItemBar.barNumber[BOMB]--;
+              redItemBar.barNumber[BOMB]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
             }
           }
         }
@@ -677,10 +889,10 @@ void keyPressed(){
           break ;
       case  'b' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 5 && redItemBar.barNumber[ICE]>0){
-              items[k].display();
+              
               redItemBar.barNumber[ICE]--;
             }
           }
@@ -688,24 +900,30 @@ void keyPressed(){
       }
           break ;
       case  'n' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 6 && redItemBar.barNumber[TRAP]>0){
-              items[k].display();
-              redItemBar.barNumber[TRAP]--;
+        for(int k=0; k<items.length; k++){
+          if(items[k]!= null ){
+            if(items[k].itemState == ITEM_USE_STATE){
+              if(items[k].itemKind == 6 && redItemBar.barNumber[TRAP]>0){
+                items[k].isAlive = true;
+                items[k].display();
+                redItemBar.barNumber[TRAP]--;                
+                items[k].x=redChooseX;
+                items[k].y=redChooseY;
+              }
             }
           }
         }
-      }
           break ;
       case  '1' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 1 && greenItemBar.barNumber[BLOOD]>0){
+              items[k].isAlive = true;
               items[k].display();
-              greenItemBar.barNumber[BLOOD]--;
+              greenItemBar.barNumber[BLOOD]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
             }
           }
         }
@@ -713,23 +931,29 @@ void keyPressed(){
           break ;
       case  '2' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 2 && greenItemBar.barNumber[BANANA]>0){
+              items[k].isAlive = true;
               items[k].display();
-              greenItemBar.barNumber[BANANA]--;
+              greenItemBar.barNumber[BANANA]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
             }
           }
         }
       }
           break ;
       case  '3' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+       for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 3 && greenItemBar.barNumber[DOOR]>0){
+              items[k].isAlive = true;
               items[k].display();
-              greenItemBar.barNumber[DOOR]--;
+              greenItemBar.barNumber[DOOR]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
             }
           }
         }
@@ -737,22 +961,25 @@ void keyPressed(){
           break ;
       case  '4' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+        if(items[k]!= null ){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 4 && greenItemBar.barNumber[BOMB]>0){
+              items[k].isAlive = true;
               items[k].display();
-              greenItemBar.barNumber[BOMB]--;
+              greenItemBar.barNumber[BOMB]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
             }
           }
         }
       }
           break ;
       case  '5' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
+     for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
           if(items[k].itemState == ITEM_USE_STATE){
             if(items[k].itemKind == 5 && greenItemBar.barNumber[ICE]>0){
-              items[k].display();
+              
               greenItemBar.barNumber[ICE]--;
             }
           }
@@ -761,18 +988,22 @@ void keyPressed(){
           break ;
       case  '6' :
       for(int k=0; k<items.length; k++){
-        if(items[k]!= null && items[k].isAlive){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 6 && greenItemBar.barNumber[TRAP]>0){
-              items[k].display();
-              greenItemBar.barNumber[TRAP]--;
+          if(items[k]!= null ){
+            if(items[k].itemState == ITEM_USE_STATE){
+              if(items[k].itemKind == 6 && greenItemBar.barNumber[TRAP]>0){
+                items[k].isAlive = true;
+                items[k].display();
+                greenItemBar.barNumber[TRAP]--;                
+                items[k].x=greenChooseX;
+                items[k].y=greenChooseY;
+              }
             }
           }
         }
-      }
           break ;    
 
-  }*/
+  }
+  }
   switch(key){//demo
     case 'g':
       gameState = GAME_START;
@@ -786,8 +1017,8 @@ void keyPressed(){
     case 'k':
       gameState = GAME_OVER;
     break;
-  }
   
+  }
 }
 
 void keyReleased(){

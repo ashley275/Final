@@ -12,19 +12,27 @@ class Trap extends Item{
         image(imgPick, x, y);
       }
       if(itemState == ITEM_USE_STATE ){
+        
         image(imgUse, x, y);
       }
     }
   }
   
   int checkCollision(Bottle bottle){
-    if(isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
-        isAlive=false;
+    if(bottle!=null&&isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
+        isAlive=false;println(2);
+      /*  itemState = ITEM_USE_STATE;*/
         return 1;       
     }else return 0 ;     
   }
   
   void collision(Bottle bottle){
-    bottle.isAlive = false;
+    if(bottle!=null){
+      println(1);
+    bottle.isAlive = false;}
   }
 }
+/*for(int j=0 ; j<MAX_SOLDIER_NUM ; j++){
+                  if(items[k].checkCollision(bottles[1][j])==1 && bottles[1][j]!= null){
+                    items[k].collision(bottles[1][j]);
+                  }*/

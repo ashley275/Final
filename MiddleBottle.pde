@@ -4,12 +4,19 @@ class MiddleBottle extends Bottle{
     water = 100;
     damage = 1;
     idleTime = 2;
-    marchImg = (camp == RED) ? loadImage("img/redSoldierMid") : loadImage("img/greenSoldierMid");
-    attackImg = (camp == RED) ? loadImage("img/redSoldierMidFighting") : loadImage("img/greenSoldierMidFighting");
+    marchImg = (camp == RED) ? loadImage("img/redSoldierMid.png") : loadImage("img/greenSoldierMid.png");
+    attackImg = (camp == RED) ? loadImage("img/redSoldierMidFighting.png") : loadImage("img/greenSoldierMidFighting.png");
   }
   
   void display(){
-    image(img, x - LAND_SIZE, y- LAND_SIZE);
+    switch(movement){
+      case MARCH:
+      image(marchImg,x - LAND_SIZE,y- LAND_SIZE);
+      break;
+      case ATTACK:
+      image(attackImg,x - LAND_SIZE,y- LAND_SIZE);
+      break;
+    }
   }
   
   void move(){

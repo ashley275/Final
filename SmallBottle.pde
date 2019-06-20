@@ -4,11 +4,18 @@ class SmallBottle extends Bottle{
     water = 100;
     damage = 2;
     idleTime = 1;
-    marchImg = (camp == RED) ? loadImage("img/redSoldierNormal") : loadImage("img/greenSoldierNormal");
-    attackImg = (camp == RED) ? loadImage("img/redSoldierNormalFighting") : loadImage("img/greenSoldierNormalFighting");
+    marchImg = (camp == RED) ? loadImage("img/redSoldierNormal.png") : loadImage("img/greenSoldierNormal.png");
+    attackImg = (camp == RED) ? loadImage("img/redSoldierFighting.png") : loadImage("img/greenSoldierFighting.png");
   }
   
   void display(){
-    image(img, x, y);
+    switch(movement){
+      case MARCH:
+      image(marchImg,x,y);
+      break;
+      case ATTACK:
+      image(attackImg,x,y);
+      break;
+    }
   }
 }

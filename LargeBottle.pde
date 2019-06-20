@@ -8,11 +8,18 @@ class LargeBottle extends Bottle{
     for(int i = 0; i < rows.length; i++){
       rows[i] = row + i;
     }
-    marchImg = (camp == RED) ? loadImage("img/redSoldierHigh") : loadImage("img/greenSoldierHigh");
-    attackImg = (camp == RED) ? loadImage("img/redSoldierHighFighting") : loadImage("img/greenSoldierHighFighting");
+    marchImg = (camp == RED) ? loadImage("img/redSoldierHigh.png") : loadImage("img/greenSoldierHigh.png");
+    attackImg = (camp == RED) ? loadImage("img/redSoldierHighFighting.png") : loadImage("img/greenSoldierHighFighting.png");
   }
   
   void display(){
-    image(img, x, y);
+    switch(movement){
+      case MARCH:
+      image(marchImg,x,y);
+      break;
+      case ATTACK:
+      image(attackImg,x,y);
+      break;
+    }
   }
 }

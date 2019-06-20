@@ -13,7 +13,7 @@ class Bottle{
   int camp;
   int movement = 0;
   final int MARCH = 0, ATTACK = 1;
-  PImage img, marchImg, attackImg;
+  PImage marchImg, attackImg;
   
   Bottle(int camp, int col, int row){    
     this.camp = camp;
@@ -35,12 +35,10 @@ class Bottle{
     
     switch(movement){
       case MARCH:
-      img = marchImg;
       march();
       break; 
       
       case ATTACK:
-      img = attackImg;
       attack();      
       break;
     }
@@ -84,7 +82,7 @@ class Bottle{
       
       for(int a = 0; a < rows.length; a++){
         for(int b = 0; b < rows.length; b++){
-          if(bottles[i][j].rows[a] == rows[b]){
+          if(rows[b]!=-1 && bottles[i][j].rows[a] == rows[b]){
               
             if(bottles[i][j].col == (col + camp)) return j;
             
@@ -102,15 +100,13 @@ class Bottle{
   }
   
   void capture(int col, int row){
-    for(col = 0; col < COL_NUM; col++){
-      for(row = 0; row < ROW_NUM; row++){
-        if(lands[col][row].camp != 0 && lands[col][row].camp != camp){                    
-          redLandNum = (camp == RED) ? redLandNum + 1 : redLandNum - 1;
-          greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
-        }
-        lands[col][row].camp = camp;
-      }
+    if(row != -1){
+    if(lands[col][row].camp != 0 && lands[col][row].camp != camp){                    
+      redLandNum = (camp == RED) ? redLandNum + 1 : redLandNum - 1;
+      greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
     }
+     lands[col][row].camp = camp;
+  }
   }
     
   void display(){

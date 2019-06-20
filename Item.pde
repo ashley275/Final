@@ -38,6 +38,12 @@ class Item {
     }else return 0;
      
   }
+  void collision(Bottle bottle){ 
+       
+        bottle.water+=10;
+        
+        
+    }
 
   Item(float x, float y){
     isAlive = true;
