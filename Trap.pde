@@ -20,15 +20,14 @@ class Trap extends Item{
   
   int checkCollision(Bottle bottle){
     if(bottle!=null&&isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
-        isAlive=false;println(2);
-      /*  itemState = ITEM_USE_STATE;*/
+        isAlive=false;
+        //itemState = ITEM_USE_STATE;
         return 1;       
     }else return 0 ;     
   }
   
   void collision(Bottle bottle){
     if(bottle!=null){
-      println(1);
     bottle.isAlive = false;}
   }
 }

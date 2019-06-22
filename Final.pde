@@ -1,5 +1,11 @@
+import ddf.minim.*;
+Minim minim;
+AudioPlayer song;
+
+PImage round1, round2,round3;
+
 boolean samePlace1,samePlace2;
-PImage bg, gamestart, gameover, gameread;
+PImage bg, gamestart, gameover, gameread, gameread2, gameread3;
 PImage startNormal, startHovered, restartNormal, restartHovered, skipNormal, skipHovered ;
 PImage banana, banana1, banana2, banana3, ice, blood, bomb, door, trap;
 PImage explosion;
@@ -21,10 +27,10 @@ final int GAME_START = 0, GAME_READ=1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER =
 int gameState = 0;
 int round = 0;
 int gameTimer = 0;
-final int GAME_PUT_TIME = 400, GAME_TIME = 800;
+final int GAME_PUT_TIME = 200, GAME_TIME = 400;
  
 //HP
-int HEALTH_POINT = 500;
+int HEALTH_POINT = 1000;
 int redHP = HEALTH_POINT;
 int greenHP = HEALTH_POINT;
 
@@ -80,7 +86,7 @@ final int ROUND_THREE_MID_SOLDIER_NUM = 1;
 final int ROUND_ONE_HIGH_SOLDIER_NUM = 1;
 final int ROUND_TWO_HIGH_SOLDIER_NUM = 1;
 final int ROUND_THREE_HIGH_SOLDIER_NUM = 1;
-final int MAX_SOLDIER_NUM = 9;
+final int MAX_SOLDIER_NUM = 100;
 
 int redLowSoldierUsed = 0;
 int greenLowSoldierUsed = 0;
@@ -103,23 +109,34 @@ Bar greenItemBar;
 Bar redBottleBar;
 Bar greenBottleBar;
 
-boolean move = false;
 PFont font;
-
+int count = 0;
 
 void setup() {
   size(1920,1080);
   frameRate(40);
+  
+  minim = new Minim(this);
+  song = minim.loadFile("song.mp3", 1024);
+  song.play();
+  song.loop();
+  
   bg = loadImage("img/bg.png");
   gamestart = loadImage("img/gamestart.png");
   gameover = loadImage("img/gameover.png");
   gameread = loadImage("img/gameread.png");
+  gameread2 = loadImage("img/gameread2.png");
+  gameread3 = loadImage("img/gameread3.png");
   startNormal = loadImage("img/startNormal.png");
   startHovered = loadImage("img/startHovered.png");
   restartNormal = loadImage("img/restartNormal.png");
   restartHovered = loadImage("img/restartHovered.png");
   skipNormal = loadImage("img/skipNormal.png");
   skipHovered = loadImage("img/skipHovered.png");
+  
+  round1 = loadImage("img/round1.png");
+round2 = loadImage("img/round2.png");
+round3 = loadImage("img/round3.png");
   
   //choose
   redChoose = loadImage("img/redChoose.png");
@@ -277,11 +294,11 @@ void setup() {
 }
 
 
-void initGame(){
+void initImage(){
   image(redTower,0,220);
   image(greenTower,1760,220);
-  image(towerHealthBar, 40 , 280);
-  image(towerHealthBar, width-40 , 280);
+  image(towerHealthBar, 20 , 265);
+  image(towerHealthBar, width-58 , 265);
   
   //itemBar
   image(itemBar,20,900);
@@ -295,6 +312,107 @@ void initGame(){
   
   image(bolbNormal, 160, 60);
   image(kappaNormal, 1460, 60,300,130);
+}
+
+void initGame(){
+  redChooseX = 160; redChooseY = 220;
+  greenChooseX = 1680; greenChooseY = 220;
+  gameTimer = GAME_PUT_TIME;
+  for(int col =0;col<COL_NUM;col++){
+    for(int row = 0; row<ROW_NUM;row++){
+      if(col ==0 || col==1){
+        lands[col][row] = new Land(col, row, RED);
+        redLandNum = ROW_NUM*2;
+      }else if(col == 18 || col == 19){
+        lands[col][row] = new Land(col, row, GREEN);
+        greenLandNum = ROW_NUM*2;
+      }else lands[col][row] = new Land(col, row, OWNERLESS);
+    }
+  }
+  for(int i=0;i<6;i++){
+  redItemBar.barNumber[i]=0;
+  greenItemBar.barNumber[i]=0;}
+
+    for(int i = 0; i< 2;i++){
+    for(int j = 0; j < MAX_SOLDIER_NUM; j++){
+      bottles[i][j] = null;
+    }}
+  
+    for(int i = 0; i <3; i++){
+  
+  float newX1 = 160+LAND_SIZE * (2+ i * 4 + floor(random(2)));
+  float newY1= 220+LAND_SIZE * floor(random(ROW_NUM));
+  float newX2 = 160+LAND_SIZE * (2+ i * 4 + floor(random(2,4)));  
+  float newY2= 220+LAND_SIZE * floor(random(ROW_NUM));
+   for(int w=0; w<2 ;w++){
+    for(int s=0; s<MAX_SOLDIER_NUM; s++){
+      if(bottles[w][s] != null){
+        if(newX1 == bottles[w][s].x && newY1 == bottles[w][s].y) samePlace1 = true ;
+        if(newX2 == bottles[w][s].x && newY2 == bottles[w][s].y) samePlace2 = true ;}
+        if(samePlace1 == true || samePlace2 == true){i--;}else{
+        
+        switch(i){
+       case 0: int showUp = floor(random(0,2));
+          if(showUp == 0){ 
+          items[0+(8*round)] = new Bomb(newX1, newY1);
+          items[0+(8*round)].itemKind = 4;
+          items[1+(8*round)] = new Bomb(newX2, newY2);
+          items[1+(8*round)].itemKind = 4;
+        }
+        if(showUp == 1){ 
+          items[0+(8*round)] = new Trap(newX1, newY1);
+          items[0+(8*round)].itemKind = 6;
+          items[1+(8*round)] = new Trap(newX2, newY2);
+          items[1+(8*round)].itemKind = 6;
+        }
+    
+    case 1:showUp = floor(random(0,10));
+          if(showUp == 0){ 
+          items[2+(8*round)] = new Banana(newX1, newY1);
+          items[2+(8*round)].itemKind = 2;
+          items[3+(8*round)] = new Banana(newX2, newY2);
+          items[3+(8*round)].itemKind = 2;
+        }else{ 
+          items[2+(8*round)] = new Door(newX1, newY1);
+          items[2+(8*round)].itemKind = 3;
+          items[3+(8*round)] = new Door(newX2, newY2);
+          items[3+(8*round)].itemKind = 3;
+        }
+    
+    case 2: showUp = floor(random(0,10));
+          if(showUp == 0){ 
+          items[4+(8*round)] = new Ice(newX1, newY1); 
+          items[4+(8*round)].itemKind = 5;
+          items[5+(8*round)] = new Ice(newX2, newY2);
+          items[5+(8*round)].itemKind = 5;
+        }else{ 
+          items[4+(8*round)] = new Blood(newX1, newY1);
+          items[4+(8*round)].itemKind = 1;
+          items[5+(8*round)] = new Blood(newX2, newY2);
+          items[5+(8*round)].itemKind = 1;
+        }
+    
+    case 3: showUp = floor(random(0,2));
+          if(showUp == 0){ 
+          items[6+(8*round)] = new Bomb(newX1, newY1); 
+          items[6+(8*round)].itemKind = 4;
+          items[7+(8*round)] = new Bomb(newX2, newY2);
+          items[7+(8*round)].itemKind = 4;
+        }
+        if(showUp == 1){ 
+          items[6+(8*round)] = new Trap(newX1, newY1);
+          items[6+(8*round)].itemKind = 6;
+          items[7+(8*round)] = new Trap(newX2, newY2);
+          items[7+(8*round)].itemKind = 6;
+        }
+    }
+  }
+      
+    }
+    
+      }
+  }
+  round = 0;
 }
 
 void draw(){
@@ -329,7 +447,20 @@ void draw(){
     break;
      
      case GAME_READ:
-        image(gameread,0,0);
+       switch(count){
+         case 0:
+         image(gameread,0,0);
+         break;
+         case 1:
+         image(gameread2,0,0);
+         break;
+         case 2:
+         image(gameread3,0,0);         
+         break;
+         case 3:
+         gameState = GAME_SET;
+       }
+        //if(keyPressed) image(gameread,0,0);
         if(SKIP_BUTTON_X + SKIP_BUTTON_WIDTH > mouseX
           && SKIP_BUTTON_X < mouseX
           && SKIP_BUTTON_Y + SKIP_BUTTON_HEIGHT > mouseY
@@ -358,7 +489,7 @@ void draw(){
         }
       }
       
-      initGame();
+      initImage();
       
       //item display
       for(int i=0; i<items.length; i++){
@@ -379,16 +510,16 @@ void draw(){
       moveRect();
       
 
-      if(redHP!=HEALTH_POINT){
-        map(100, 38, 38, 280, 400);
-        image(redTowerHealthBarCover, 38, 280 , 38 , redCoverH);
-        redCoverH = HEALTH_POINT-redHP;
-      }
-      if(greenHP!=HEALTH_POINT){
-        map(100, 38, 38, 280, 400);
-        image(greenTowerHealthBarCover,width-38, 280 , width-38 , greenCoverH);
-        greenCoverH = HEALTH_POINT-greenHP;
-      }
+      //if(redHP!=HEALTH_POINT){
+      //  map(100, 38, 38, 280, 400);
+      //  image(redTowerHealthBarCover, 38, 280 , 38 , redCoverH);
+      //  redCoverH = HEALTH_POINT-redHP;
+      //}
+      //if(greenHP!=HEALTH_POINT){
+      //  map(100, 38, 38, 280, 400);
+      //  image(greenTowerHealthBarCover,width-38, 280 , width-38 , greenCoverH);
+      //  greenCoverH = HEALTH_POINT-greenHP;
+      //}
       
       if (gameTimer ==0){
         gameState = GAME_FIGHT;
@@ -414,12 +545,11 @@ void draw(){
     
     case GAME_FIGHT:
       image(bg, 0, 0, 1920, 1080);
-      drawGameRound("GAME FIGHT",#000055);
       
       gameTimer--;
       timeCountdown();
       showRound();
-      initGame();
+      initImage();
       
       //item display
       for(int i=0; i<items.length; i++){
@@ -474,7 +604,6 @@ void draw(){
                  //if(items[k].itemKind == 4) items[k].collision(bottles[0][j]);
                  //if(items[k].itemKind == 5) /*bottles[1][j].freeze();*/
                  /*if(items[k].itemKind == 6)*/ items[k].collision(bottles[0][j]); 
-                 println(bottles[0][j].isAlive);
                }
                }
              }
@@ -537,21 +666,19 @@ void draw(){
       
     case GAME_OVER:
       image(bg, 0, 0, 1920, 1080);
-      drawGameRound("GAME OVER",#000055);
-      
-       String winnerText="WIN";
-          image(gameover, 0, 0);
+      String winnerText="WIN";
+        image(gameover, 0, 0);
           if(redHP<=0 ||  redLandNum< greenLandNum){
             winnerText = "THE WINNER IS KAPPA!";
-            image(kappaAward,500,600);
+            image(kappaAward,340,575, 460, 200);
             image(bolbNormal,1220,600);
           }
-          if(greenHP<=0 || redLandNum> greenLandNum){
+          else if(greenHP<=0 || redLandNum> greenLandNum){
             winnerText = "THE WINNER IS BOLB!";
-            image(bolbAward,500,600);
-            image(kappaNormal,1220,600);
+            image(bolbAward,340,575);
+            image(kappaNormal,1220,600, 460, 200);
           }
-          if(redLandNum== greenLandNum)winnerText = "EVEN";
+          else if(redLandNum== greenLandNum)winnerText = "EVEN";
           textAlign(CENTER);
           textFont(font,50);
           text(winnerText,width/2,height/2-100);
@@ -593,6 +720,17 @@ boolean isHit(float ax, float ay, float aw, float ah, float bx, float by, float 
         ax < bx + bw && 
         ay+ah > by && 
         ay < by + bh;
+}
+
+  void showRoundPic(){
+float picX, picY; 
+picX = -960;
+picY = height/2;
+//image(CENTER);
+if(round == 0 ) image(round1,picX,picY);
+if(round == 1 ) image(round2,picX,picY);
+if(round == 2 ) image(round3,picX,picY);
+picX++; 
 }
   
 void drawGameRound(String text, color textColor){
@@ -650,7 +788,7 @@ void moveRect(){
 }
 
 void keyPressed(){
-  
+  if(gameState == GAME_READ) count++;
   if(gameState == GAME_SET){
     if(key==CODED){
       //Green choose
@@ -728,7 +866,9 @@ void keyPressed(){
     }
     break;
     case 'c':
-    if(lands[redChooseCol][redChooseRow].hasBottle == false && redChooseRow < 6){
+    if(redChooseRow < 6 && lands[redChooseCol][redChooseRow].hasBottle == false
+    && lands[redChooseCol][redChooseRow + 1].hasBottle == false
+    && lands[redChooseCol][redChooseRow + 2].hasBottle == false){
     bottles[0][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
     redBottleUsed++;
     redLargeBottleAVL--;
@@ -758,7 +898,9 @@ void keyPressed(){
     }
     break;
     case '3':
-    if(lands[greenChooseCol][greenChooseRow].hasBottle == false && greenChooseRow < 6){
+    if(greenChooseRow < 6 && lands[greenChooseCol][greenChooseRow].hasBottle == false
+    && lands[greenChooseCol][greenChooseRow + 1].hasBottle == false
+    && lands[greenChooseCol][greenChooseRow + 2].hasBottle == false){
     bottles[1][greenBottleUsed] = new LargeBottle(GREEN, greenChooseCol, greenChooseRow);
     greenBottleUsed++;
     greenLargeBottleAVL--;
@@ -1022,5 +1164,4 @@ void keyPressed(){
 }
 
 void keyReleased(){
-
 }

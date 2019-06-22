@@ -61,8 +61,19 @@ class Bottle{
   
   void attack(){
     if(reconEnemy() == -1){
-      if(camp== RED) greenHP-=damage;
-      else redHP-= damage;
+      if(camp== RED){
+        greenHP-=damage;
+        image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenHP);
+        if(greenHP <= 0){
+           greenHP = 0;
+        }
+      }else{
+        redHP-= damage;
+        image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redHP);
+        if(redHP <= 0){
+          redHP = 0;
+        }
+      }
     }
     else{
       int i = (camp == RED) ? 1 : 0;
