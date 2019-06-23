@@ -4,8 +4,8 @@ class MiddleBottle extends Bottle{
     water = 100;
     damage = 1;
     idleTime = 2;
-    marchImg = (camp == RED) ? loadImage("img/redSoldierMid.png") : loadImage("img/greenSoldierMid.png");
-    attackImg = (camp == RED) ? loadImage("img/redSoldierMidFighting.png") : loadImage("img/greenSoldierMidFighting.png");
+    marchImg = (camp == RED) ? loadImage("img/bottle/redBottleMiddle.png") : loadImage("img/bottle/greenBottleMiddle.png");
+    attackImg = (camp == RED) ? loadImage("img/bottle/redBottleMiddleFighting.png") : loadImage("img/bottle/greenBottleMiddleFighting.png");
   }
   
   void display(){
@@ -22,7 +22,7 @@ class MiddleBottle extends Bottle{
   void move(){
     super.move();
     int i = (camp == RED) ? 1 : 0;
-    for(int j = 0; j < MAX_SOLDIER_NUM; j++){
+    for(int j = 0; j < bottles[i].length; j++){
       if(bottles[i][j] != null) areaOfEffect(bottles[i][j]);
     }    
   }

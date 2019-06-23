@@ -12,7 +12,7 @@ class Bottle{
   
   int camp;
   int movement = 0;
-  final int MARCH = 0, ATTACK = 1;
+  final int MARCH = 0, ATTACK = 1, STOP = 2;
   PImage marchImg, attackImg;
   
   Bottle(int camp, int col, int row){    
@@ -21,28 +21,37 @@ class Bottle{
     rows[0] = row;
     x = 160 + col * LAND_SIZE;
     y = 220 + row * LAND_SIZE;
-    w = LAND_SIZE;
-    h = LAND_SIZE;
     walkingTime = 1;
     walkingSpeed = 8;
     water = MAX_WATER;
-    isAlive = true;
+    isAlive = true;    
+    lands[col][row].hasBottle = true;
   }
   
-  void move(){   
-    if(reconEnemy() == -2) movement = MARCH;
-    else movement = ATTACK;
+  void move(){
+    for(int i = 0; i < rows.length; i++){
+      if(water <= 0){
+        isAlive = false;
+        if(rows[i] != -1) lands[col][rows[i]].hasBottle = false;
+      }else if(reconEnemy() == -2){      
+        if(rows[i] != -1 && lands[col + camp][rows[i]].hasBottle){
+          movement = STOP;
+          break;
+        }else movement = MARCH;
+      }else movement = ATTACK;
+    }
     
     switch(movement){
       case MARCH:
       march();
-      break; 
-      
+      break;       
       case ATTACK:
       attack();      
+      break;      
+      case STOP:
+      marchTimer = (walkingTime + idleTime) * timeUnit;
       break;
     }
-    if(water <= 0) isAlive = false;
   }
   
   void march(){
@@ -54,24 +63,25 @@ class Bottle{
     if(marchTimer == idleTime * timeUnit){
       col += camp;
       for(int i = 0; i < rows.length; i++){
-        capture(col, rows[i]);
+        if(rows[i] != -1) capture(col, rows[i]);
       }
     }
   }
   
   void attack(){
+    if(reconEnemy() == -2) return;
     if(reconEnemy() == -1){
       if(camp== RED){
-        greenHP-=damage;
-        image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenHP);
-        if(greenHP <= 0){
-           greenHP = 0;
+        greenTowerHP-=damage;
+        image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenTowerHP);
+        if(greenTowerHP <= 0){
+           greenTowerHP = 0;
         }
       }else{
-        redHP-= damage;
-        image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redHP);
-        if(redHP <= 0){
-          redHP = 0;
+        redTowerHP-= damage;
+        image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redTowerHP);
+        if(redTowerHP <= 0){
+          redTowerHP = 0;
         }
       }
     }
@@ -88,7 +98,7 @@ class Bottle{
     if(onEdge()) return -1;
     
     int i = (camp == RED) ? 1 : 0;
-    for(int j = 0; j < MAX_SOLDIER_NUM; j++){
+    for(int j = 0; j < bottles[i].length; j++){
       if(bottles[i][j] == null || !bottles[i][j].isAlive) continue;
       
       for(int a = 0; a < rows.length; a++){
@@ -112,14 +122,24 @@ class Bottle{
   
   void capture(int col, int row){
     if(row != -1){
-    if(lands[col][row].camp != 0 && lands[col][row].camp != camp){                    
-      redLandNum = (camp == RED) ? redLandNum + 1 : redLandNum - 1;
-      greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
-    }
+      if(lands[col][row].camp != 0 && lands[col][row].camp != camp){                    
+        redLandNum = (camp == RED) ? redLandNum + 1 : redLandNum - 1;
+        greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
+      }
      lands[col][row].camp = camp;
-  }
+     lands[col][row].hasBottle = true;
+     lands[col - camp][row].hasBottle = false;
+    }
   }
     
   void display(){
+    switch(movement){
+      case ATTACK:
+      image(attackImg,x,y);
+      break;
+      default:
+      image(marchImg,x,y);
+      break;
+    }
   }  
 }

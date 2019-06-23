@@ -1,37 +1,23 @@
 class Trap extends Item{
   
-  Trap(float x, float y){
-    super(x,y); 
+  Trap(int col, int row){
+    super(col,row); 
     imgPick=trapball;
     imgUse=trap;
   }
   
-  void display(){
-    if(isAlive==true){
-      if(itemState == ITEM_PICK_STATE){
-        image(imgPick, x, y);
-      }
-      if(itemState == ITEM_USE_STATE ){
-        
-        image(imgUse, x, y);
-      }
-    }
+  void checkCollision(){
+    super.checkCollision();
+    if(camp == RED) redItemBar.barNumber[TRAP]++;
+    else if(camp == green) greenItemBar.barNumber[TRAP]++;
   }
   
-  int checkCollision(Bottle bottle){
-    if(bottle!=null&&isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true){  
-        isAlive=false;
-        //itemState = ITEM_USE_STATE;
-        return 1;       
-    }else return 0 ;     
-  }
-  
-  void collision(Bottle bottle){
+  void use(){
     if(bottle!=null){
     bottle.isAlive = false;}
   }
 }
 /*for(int j=0 ; j<MAX_SOLDIER_NUM ; j++){
                   if(items[k].checkCollision(bottles[1][j])==1 && bottles[1][j]!= null){
-                    items[k].collision(bottles[1][j]);
-                  }*/
+                    items[k].collision(bottles[1][j]);*/
+                  }

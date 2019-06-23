@@ -1,53 +1,19 @@
 class Item {
-  boolean isAlive;
-  float x, y;
-  float w = LAND_SIZE;
-  float h = LAND_SIZE;
-  PImage imgPick, imgUse;
-
-  int itemState =0;
-  int itemKind;
-  
+  int col, row;
+  boolean isAlive = false;
+  PImage img;  
 
   void display(){
-    itemState = ITEM_PICK_STATE;
-    if(isAlive==true){
-      if(itemState == ITEM_PICK_STATE){
-        image(imgPick, x, y);
-      }
-      if(itemState == ITEM_USE_STATE ){
-        image(imgUse, x, y);
-      }
-    }
+    image(img, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
   }
   
-  
-  /*void putDown(float x, float y){
-    isAlive = true;
-    x =  
-    y = 
-  
-  }*/
-   
-  int checkCollision(Bottle bottle){
-    if(isHit(x, y, LAND_SIZE, LAND_SIZE, bottle.x, bottle.y, bottle.w, bottle.h)&&isAlive==true&&itemState == ITEM_PICK_STATE){  
-        isAlive=false;
-        itemState = ITEM_USE_STATE;
-        return 1;
-        
-    }else return 0;
-     
+  void use(){
   }
-  void collision(Bottle bottle){ 
-       
-        bottle.water+=10;
-        
-        
-    }
 
-  Item(float x, float y){
+  Item(int col, int row){
     isAlive = true;
-    this.x = x;
-    this.y = y;
+    this.col = col;
+    this.row = row;
+    lands[col][row].hasItem = true;
   }
 }

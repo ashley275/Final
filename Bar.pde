@@ -1,26 +1,32 @@
 class Bar{
-  float x, y;
+  int x, y;
   int spaceNum;
   final int SPACE_SIZE = 100;
   final int TEXT_SIZE = 80;
   
-  float w = SPACE_SIZE * spaceNum;  
-  int [] barNumber =  {-1, -1, -1, -1, -1, -1};
+  int w = SPACE_SIZE * spaceNum;  
+  int [] number =  {-1, -1, -1, -1, -1, -1};
+  PImage img;
   
-  Bar(int num){      
+  Bar(int num, PImage img){
+    this.img = img;
     spaceNum = num;
     y = 900;
     for(int i = 0; i < num; i++){
-      barNumber[i] = 0;
+      number[i] = 0;
     }
   }
   
-  void textNumber(float x){
+  void display(float x){
+    image(img, x, y);
+  }
+  
+  void textNumber(){
     for(int i = 0; i < barNumber.length; i++){
-      if(barNumber[i] != -1){
+      if(number[i] != -1){
         fill(0, 0, 0);
         textSize(32);
-        text(barNumber[i], x + TEXT_SIZE + i * SPACE_SIZE, y + TEXT_SIZE);
+        text(number[i], x + TEXT_SIZE + i * SPACE_SIZE, y + TEXT_SIZE);
       }
     }   
   }
