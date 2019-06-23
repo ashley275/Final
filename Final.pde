@@ -92,7 +92,7 @@ final int ROUND_TWO_LARGE_BOTTLE_NUM = 1;
 final int ROUND_THREE_SMALL_BOTTLE_NUM = 1;
 final int ROUND_THREE_MIDDLE_BOTTLE_NUM = 1;
 final int ROUND_THREE_LARGE_BOTTLE_NUM = 1;
-final int MAX_BOTTLE_NUM = 10;
+final int MAX_BOTTLE_NUM = 15;
 
 // -land
 final int LAND_SIZE = 80;
