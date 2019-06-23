@@ -1,10 +1,9 @@
 class Bar{
-  int x, y;
+  int x, y, w;
   int spaceNum;
   final int SPACE_SIZE = 100;
   final int TEXT_SIZE = 80;
-  
-  int w = SPACE_SIZE * spaceNum;  
+ 
   int [] number =  {-1, -1, -1, -1, -1, -1};
   PImage img;
   
@@ -12,12 +11,14 @@ class Bar{
     this.img = img;
     spaceNum = num;
     y = 900;
+    w = SPACE_SIZE * spaceNum;
     for(int i = 0; i < num; i++){
       number[i] = 0;
     }
   }
   
-  void display(float x){
+  void display(int x){
+    this.x = x;
     image(img, x, y);
   }
   

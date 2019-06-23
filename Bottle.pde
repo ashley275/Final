@@ -71,10 +71,25 @@ class Bottle{
   void attack(){
     if(reconEnemy() == -2) return;
     if(reconEnemy() == -1){
+<<<<<<< HEAD
+      if(camp == RED){
+        greenTowerHP -= damage;
+        //image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenTowerHP);
+        if(greenTowerHP <= 0){
+           greenTowerHP = 0;
+        }
+      }else{
+        redTowerHP -= damage;
+        //image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redTowerHP);
+        if(redTowerHP <= 0){
+          redTowerHP = 0;
+        }
+=======
       if(camp== RED){
         greenTowerHP-=damage;
       }else if(camp == GREEN){
         redTowerHP-= damage;
+>>>>>>> 572c548854e92a8df57f48113b41054f86680bf8
       }
     }
     else{
@@ -119,12 +134,17 @@ class Bottle{
         greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
       }
      lands[col][row].camp = camp;
+     println(camp);
+     println("..."+lands[col][row].camp);
      lands[col][row].hasBottle = true;
      lands[col - camp][row].hasBottle = false;
     }
   }
     
   void display(){
+    pushStyle();
+    float bottleTint = map(water, 0, MAX_WATER , 0, 500);
+    tint(255,bottleTint);
     switch(movement){
       case ATTACK:
       image(attackImg,x,y);
@@ -132,6 +152,7 @@ class Bottle{
       default:
       image(marchImg,x,y);
       break;
+      popStyle();
     }
   }  
 }

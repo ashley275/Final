@@ -8,7 +8,14 @@ class Land{
     this.col = col;
     this.row = row;
     this.camp = camp;
-    img = (camp == RED) ? loadImage("img/land/redLand.png") : loadImage("img/land/greenLand.png");
+    
+    switch(camp){
+      case RED:
+      case OWNERLESS:
+      img = loadImage("img/land/redLand.png");
+      break;      
+      default: img = loadImage("img/land/greenLand.png");break;
+    }
   }
   
   void cheeosUnlocked(){    
