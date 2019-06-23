@@ -19,9 +19,9 @@ class Tower{
   }
   
   void damage(){
-    float greenDamageHealth = map(HEALTH_POINT-greenHP, 0, 1000, 0, 420);
+    float greenDamageHealth = map(HEALTH_POINT-greenTowerHP, 0, 1000, 0, 420);
     image(greenTowerHealthBarCover, width - 58, 260 , 38 , greenDamageHealth);
-    float redDamageHealth = map(HEALTH_POINT-redHP, 0, 1000, 0, 420);
+    float redDamageHealth = map(HEALTH_POINT-redTowerHP, 0, 1000, 0, 420);
     image(redTowerHealthBarCover,18, 260 , 38 ,redDamageHealth);
   }
   

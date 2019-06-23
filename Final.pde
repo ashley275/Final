@@ -2,6 +2,10 @@
 import ddf.minim.*;
 Minim minim;
 AudioPlayer song;
+AudioPlayer attack;
+AudioPlayer bottleDie;
+AudioPlayer towerDamage;
+AudioPlayer towerDie;
 
 // Image
 // -page
@@ -106,6 +110,7 @@ Bar redItemBar;
 Bar greenItemBar;
 Bar redBottleBar;
 Bar greenBottleBar;
+Tower towers;
 
 // Font
 PFont abc;
@@ -120,6 +125,10 @@ void setup() {
   song = minim.loadFile("song.mp3", 1024);
   song.play();
   song.loop();
+  attack = minim.loadFile("attack.mp3", 1024);
+  bottleDie = minim.loadFile("bottleDie.mp3", 1024);
+  towerDamage = minim.loadFile("towerDamage.mp3", 1024);
+  towerDie = minim.loadFile("towerDie.mp3", 1024);
   
   // Image
   // -pages
@@ -195,6 +204,7 @@ void setup() {
   bottles = new Bottle[2][MAX_BOTTLE_NUM];
   lands = new Land[COL_NUM][ROW_NUM];  
   balls = new Ball[24];
+  towers = new Tower();
   
   redItemBar = new Bar(6, itemBar);
   greenItemBar = new Bar(6, itemBar);
@@ -329,6 +339,7 @@ void draw(){
     image(bg, 0, 0, 1920, 1080);
     timeCountdown();
     showRound();
+    towers();
     
     // -bar
     redItemBar.display(20);

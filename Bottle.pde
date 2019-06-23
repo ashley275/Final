@@ -46,7 +46,7 @@ class Bottle{
       march();
       break;       
       case ATTACK:
-      attack();      
+      attack();
       break;      
       case STOP:
       marchTimer = (walkingTime + idleTime) * timeUnit;
@@ -73,16 +73,8 @@ class Bottle{
     if(reconEnemy() == -1){
       if(camp== RED){
         greenTowerHP-=damage;
-        image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenTowerHP);
-        if(greenTowerHP <= 0){
-           greenTowerHP = 0;
-        }
-      }else{
+      }else if(camp == GREEN){
         redTowerHP-= damage;
-        image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redTowerHP);
-        if(redTowerHP <= 0){
-          redTowerHP = 0;
-        }
       }
     }
     else{
