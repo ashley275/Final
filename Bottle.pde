@@ -32,7 +32,10 @@ class Bottle{
     for(int i = 0; i < rows.length; i++){
       if(water <= 0){
         isAlive = false;
-        if(rows[i] != -1) lands[col][rows[i]].hasBottle = false;
+        bottleDie.play();
+        if(rows[i] != -1){
+          lands[col][rows[i]].hasBottle = false;
+        }
       }else if(reconEnemy() == -2){      
         if(rows[i] != -1 && lands[col + camp][rows[i]].hasBottle){
           movement = STOP;

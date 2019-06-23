@@ -1,10 +1,8 @@
 class Tower{
-  int x, y, camp, health;
   boolean isAlive = true;
   PImage redTower, greenTower, barImg, coverRedImg, coverGreenImg;
   
   Tower(){
-    health = HEALTH_POINT;
     isAlive = true;
     barImg = loadImage("img/scene/towerHealthBar.png");
     redTower = loadImage("img/scene/redTower.png");
