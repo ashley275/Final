@@ -1,40 +1,33 @@
 class Tower{
   int x, y, camp, health;
   boolean isAlive = true;
-  PImage towerImg, barImg, coverImg;
+  PImage redTower, greenTower, barImg, coverRedImg, coverGreenImg;
   
-  Tower(int camp, int x, int y){
-    this.camp = camp;
-    this.x = x;
-    this.y = y;
+  Tower(){
     health = HEALTH_POINT;
     isAlive = true;
     barImg = loadImage("img/scene/towerHealthBar.png");
-    towerImg = (camp == RED) ? loadImage("img/scene/redTower.png") : loadImage("img/scene/greenTower.png");
-    coverImg = (camp == RED) ? loadImage("img/scene/redTowerHealthBarCover.png") : loadImage("img/scene/greenTowerHealthBarCover.png");
+    redTower = loadImage("img/scene/redTower.png");
+    greenTower = loadImage("img/scene/greenTower.png");
+    coverRedImg = loadImage("img/scene/redTowerHealthBarCover.png");
+    coverGreenImg = loadImage("img/scene/greenTowerHealthBarCover.png");
   }
   
   void display(){
-    image(towerImg, x, y);
-    image(barImg, (camp == RED) ? 20 : width - 50, y + 45);
+    image(redTower, 0, 220);
+    image(greenTower, width-160, 220);
+    image(barImg, 20 , 265);
+    image(barImg, width-50, 265);
   }
   
   void damage(){
-<<<<<<< HEAD
+    towerDamage.play();
     float greenDamageHealth = map(HEALTH_POINT - greenTowerHP, 0, 1000, 0, 420);
     float redDamageHealth = map(HEALTH_POINT-redTowerHP, 0, 1000, 0, 420);
-    if(camp == RED) image(coverImg, 18, 260 , 38 ,redDamageHealth);
-    else image(coverImg, width - 58, y + 40 , 38 , greenDamageHealth);
-    
-    
-  }  
-=======
-    float greenDamageHealth = map(HEALTH_POINT-greenTowerHP, 0, 1000, 0, 420);
-    image(greenTowerHealthBarCover, width - 58, 260 , 38 , greenDamageHealth);
-    float redDamageHealth = map(HEALTH_POINT-redTowerHP, 0, 1000, 0, 420);
-    image(redTowerHealthBarCover,18, 260 , 38 ,redDamageHealth);
+    image(coverRedImg, 18, 260 , 38 ,redDamageHealth);
+    image(coverGreenImg, width - 52, 260 , 38 , greenDamageHealth);
+    if(greenTowerHP <= 0 || redTowerHP <= 0){
+      towerDie.play();
+    }
   }
-  
-  
->>>>>>> 572c548854e92a8df57f48113b41054f86680bf8
 }

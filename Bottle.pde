@@ -71,26 +71,12 @@ class Bottle{
   void attack(){
     if(reconEnemy() == -2) return;
     if(reconEnemy() == -1){
-<<<<<<< HEAD
-      if(camp == RED){
-        greenTowerHP -= damage;
-        //image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenTowerHP);
-        if(greenTowerHP <= 0){
-           greenTowerHP = 0;
-        }
-      }else{
-        redTowerHP -= damage;
-        //image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redTowerHP);
-        if(redTowerHP <= 0){
-          redTowerHP = 0;
-        }
-=======
       if(camp== RED){
         greenTowerHP-=damage;
       }else if(camp == GREEN){
         redTowerHP-= damage;
->>>>>>> 572c548854e92a8df57f48113b41054f86680bf8
       }
+      towers.damage();
     }
     else{
       int i = (camp == RED) ? 1 : 0;
@@ -151,8 +137,8 @@ class Bottle{
       break;
       default:
       image(marchImg,x,y);
-      break;
-      popStyle();
+      break;      
     }
-  }  
+    popStyle();
+  }
 }

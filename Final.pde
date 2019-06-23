@@ -199,15 +199,12 @@ void setup() {
   bottles = new Bottle[2][MAX_BOTTLE_NUM];
   lands = new Land[COL_NUM][ROW_NUM];  
   balls = new Ball[24];
-<<<<<<< HEAD
-=======
   towers = new Tower();
   
   redItemBar = new Bar(6, itemBar);
   greenItemBar = new Bar(6, itemBar);
   redBottleBar = new Bar(3, bottleBarRight);
   greenBottleBar = new Bar(3, bottleBarLeft);
->>>>>>> 572c548854e92a8df57f48113b41054f86680bf8
 
   // Font      
   abc = createFont("abc.ttf", 100);
@@ -219,8 +216,7 @@ void setup() {
 void initGame(){
   // Image
   // -tower
-  redTower = new Tower(RED, 0, 220);
-  greenTower = new Tower(GREEN, width - 160, 220);
+  towers = new Tower();
 
   // -player
   image(bolbNormal, 160, 60);
@@ -335,11 +331,9 @@ void draw(){
     image(bg, 0, 0, 1920, 1080);
     timeCountdown();
     showRound();
-    towers();
     
     // -tower
-    redTower.display();
-    greenTower.display();
+    towers.display();
     
     // -bar
     redItemBar.display(20);
@@ -399,8 +393,7 @@ void draw(){
     showRound();
     
     // -tower
-    redTower.display();
-    greenTower.display();
+    towers.display();
     
     // -bar
     redItemBar.display(20);
