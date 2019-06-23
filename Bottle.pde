@@ -71,15 +71,15 @@ class Bottle{
   void attack(){
     if(reconEnemy() == -2) return;
     if(reconEnemy() == -1){
-      if(camp== RED){
-        greenTowerHP-=damage;
-        image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenTowerHP);
+      if(camp == RED){
+        greenTowerHP -= damage;
+        //image(greenTowerHealthBarCover, width - 58, 260 , 38 , HEALTH_POINT-greenTowerHP);
         if(greenTowerHP <= 0){
            greenTowerHP = 0;
         }
       }else{
-        redTowerHP-= damage;
-        image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redTowerHP);
+        redTowerHP -= damage;
+        //image(redTowerHealthBarCover,18, 260 , 38 ,HEALTH_POINT-redTowerHP);
         if(redTowerHP <= 0){
           redTowerHP = 0;
         }
@@ -127,6 +127,8 @@ class Bottle{
         greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
       }
      lands[col][row].camp = camp;
+     println(camp);
+     println("..."+lands[col][row].camp);
      lands[col][row].hasBottle = true;
      lands[col - camp][row].hasBottle = false;
     }

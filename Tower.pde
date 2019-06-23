@@ -1,35 +1,30 @@
 class Tower{
-  final int redTowerX = 0, redY = 220;
-  final int greenTowerX = width-160, greenY = 220;
+  int x, y, camp, health;
   boolean isAlive = true;
-  float greenTowerHealth,redTowerHealth;
+  PImage towerImg, barImg, coverImg;
   
-  
-  Tower(){
+  Tower(int camp, int x, int y){
+    this.camp = camp;
+    this.x = x;
+    this.y = y;
+    health = HEALTH_POINT;
     isAlive = true;
+    barImg = loadImage("img/scene/towerHealthBar.png");
+    towerImg = (camp == RED) ? loadImage("img/scene/redTower.png") : loadImage("img/scene/greenTower.png");
+    coverImg = (camp == RED) ? loadImage("img/scene/redTowerHealthBarCover.png") : loadImage("img/scene/greenTowerHealthBarCover.png");
   }
   
   void display(){
-    if(isAlive == true){
-      image(greenTower , width-160 , 220);
-      image(redTower , 0 , 220);
-      image(towerHealthBar , 20 , 265);
-      image(towerHealthBar , width-50 , 265);
-    }
+    image(towerImg, x, y);
+    image(barImg, (camp == RED) ? 20 : width - 50, y + 45);
   }
   
   void damage(){
-    float greenDamageHealth = map(HEALTH_POINT-greenHP, 0, 1000, 0, 420);
-    image(greenTowerHealthBarCover, width - 58, 260 , 38 , greenDamageHealth);
-    float redDamageHealth = map(HEALTH_POINT-redHP, 0, 1000, 0, 420);
-    image(redTowerHealthBarCover,18, 260 , 38 ,redDamageHealth);
-  }
-  
-  
+    float greenDamageHealth = map(HEALTH_POINT - greenTowerHP, 0, 1000, 0, 420);
+    float redDamageHealth = map(HEALTH_POINT-redTowerHP, 0, 1000, 0, 420);
+    if(camp == RED) image(coverImg, 18, 260 , 38 ,redDamageHealth);
+    else image(coverImg, width - 58, y + 40 , 38 , greenDamageHealth);
+    
+    
+  }  
 }
-
-
-/*im    age(redTower,0,220);
-  image(greenTower,1760,220);
-  image(towerHealthBar, 20 , 265);
-  image(towerHealthBar, width-58 , 265);*/

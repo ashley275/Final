@@ -27,6 +27,8 @@ class Ball{
    
   void checkCollision(){
     if(lands[col][row].hasBottle){
+      isAlive = false;
+      lands[col][row].hasItem = false;
       if(lands[col][row].camp == RED) redItemBar.number[itemType]++;
       else greenItemBar.number[itemType]++;
     }

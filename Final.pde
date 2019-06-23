@@ -11,8 +11,6 @@ PImage round1, round2,round3;
 
 // -scene
 PImage itemBar, bottleBarLeft, bottleBarRight;
-PImage redTower, greenTower;
-PImage towerHealthBar, redTowerHealthBarCover, greenTowerHealthBarCover;
 PImage bolbNormal, kappaNormal, bolbAward, kappaAward;
 
 // -choose
@@ -98,10 +96,14 @@ final int COL_NUM = 20, ROW_NUM = 8;
 int redLandNum = 0, greenLandNum = 0;
 
 // Class
+Tower redTower;
+Tower greenTower;
+
 Land lands[][];
 Bottle bottles[][];
 Item items[][];
 Ball balls[];
+
 Bar redItemBar;
 Bar greenItemBar;
 Bar redBottleBar;
@@ -149,14 +151,7 @@ void setup() {
   // -bar
   itemBar = loadImage("img/scene/itemBar.png");
   bottleBarLeft = loadImage("img/scene/redBottleBar.png");
-  bottleBarRight = loadImage("img/scene/greenBottleBar.png");
-  
-  // -tower
-  redTower = loadImage("img/scene/redTower.png"); 
-  greenTower = loadImage("img/scene/greenTower.png");
-  towerHealthBar = loadImage("img/scene/towerHealthBar.png");
-  redTowerHealthBarCover = loadImage("img/scene/redTowerHealthBarCover.png");
-  greenTowerHealthBarCover = loadImage("img/scene/greenTowerHealthBarCover.png");  
+  bottleBarRight = loadImage("img/scene/greenBottleBar.png");  
      
   // -name
   bolbNormal = loadImage("img/scene/bolbNormal.png"); 
@@ -195,14 +190,9 @@ void setup() {
   bottles = new Bottle[2][MAX_BOTTLE_NUM];
   lands = new Land[COL_NUM][ROW_NUM];  
   balls = new Ball[24];
-  
-  redItemBar = new Bar(6, itemBar);
-  greenItemBar = new Bar(6, itemBar);
-  redBottleBar = new Bar(3, bottleBarRight);
-  greenBottleBar = new Bar(3, bottleBarLeft);
 
   // Font      
-  abc = createFont("font.ttf", 100);
+  abc = createFont("abc.ttf", 100);
   
   initGame();  
 }
@@ -211,10 +201,8 @@ void setup() {
 void initGame(){
   // Image
   // -tower
-  image(redTower,0,220);
-  image(greenTower,1760,220);
-  image(towerHealthBar, 20 , 265);
-  image(towerHealthBar, width-58 , 265);
+  redTower = new Tower(RED, 0, 220);
+  greenTower = new Tower(GREEN, width - 160, 220);
 
   // -player
   image(bolbNormal, 160, 60);
@@ -237,7 +225,7 @@ void initGame(){
   redItemBar = new Bar(6, itemBar);
   greenItemBar = new Bar(6, itemBar);
   redBottleBar = new Bar(3, bottleBarLeft);
-  greenItemBar = new Bar(3, bottleBarRight);
+  greenBottleBar = new Bar(3, bottleBarRight);
       
   // -land
   for(int col = 0; col < COL_NUM; col++){
@@ -330,6 +318,10 @@ void draw(){
     timeCountdown();
     showRound();
     
+    // -tower
+    redTower.display();
+    greenTower.display();
+    
     // -bar
     redItemBar.display(20);
     greenItemBar.display(width - greenItemBar.w - 20);
@@ -343,7 +335,7 @@ void draw(){
     // -land
     for(int col = 0; col < COL_NUM; col++){
       for(int row = 0; row < ROW_NUM; row++){
-        lands[col][row].display();
+        if(lands[col][row].camp != OWNERLESS) lands[col][row].display();
       }
     }      
       
@@ -352,6 +344,14 @@ void draw(){
     for(int i = 0; i < balls.length; i++){
       if(balls[i] != null && balls[i].isAlive) balls[i].display();
     }
+    for(int i = 0; i < items.length; i++){
+      for(int j = 0; j < items.length; j++){
+        if(items[i][j] != null) {
+          items[i][j].display();
+          if(items[i][j].isAlive) items[i][j].use();
+        }
+      }
+    }    
       
     // -bottle
     for(int i = 0; i < bottles.length; i++){
@@ -379,6 +379,10 @@ void draw(){
     timeCountdown();
     showRound();
     
+    // -tower
+    redTower.display();
+    greenTower.display();
+    
     // -bar
     redItemBar.display(20);
     greenItemBar.display(width - greenItemBar.w - 20);
@@ -392,7 +396,7 @@ void draw(){
     // -land
     for(int col = 0; col < COL_NUM; col++){
       for(int row = 0; row < ROW_NUM; row++){
-        lands[col][row].display();
+        if(lands[col][row].camp != OWNERLESS) lands[col][row].display();
       }
     }
     
