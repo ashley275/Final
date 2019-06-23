@@ -125,6 +125,9 @@ class Bottle{
   }
     
   void display(){
+    pushStyle();
+    float bottleTint = map(water, 0, MAX_WATER , 0, 500);
+    tint(255,bottleTint);
     switch(movement){
       case ATTACK:
       image(attackImg,x,y);
@@ -132,6 +135,7 @@ class Bottle{
       default:
       image(marchImg,x,y);
       break;
+      popStyle();
     }
   }  
 }
