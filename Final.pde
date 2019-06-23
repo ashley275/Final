@@ -98,9 +98,9 @@ final int COL_NUM = 20, ROW_NUM = 8;
 int redLandNum = 0, greenLandNum = 0;
 
 // Class
-Land lands [][];
-Bottle bottles [][];
-Item items [][];
+Land lands[][];
+Bottle bottles[][];
+Item items[][];
 Ball balls[];
 Bar redItemBar;
 Bar greenItemBar;
@@ -108,7 +108,7 @@ Bar redBottleBar;
 Bar greenBottleBar;
 
 // Font
-PFont font;
+PFont abc;
 
 void setup() {
   // Set
@@ -202,7 +202,7 @@ void setup() {
   greenBottleBar = new Bar(3, bottleBarLeft);
 
   // Font      
-  font = createFont("font.ttf",100);
+  abc = createFont("font.ttf", 100);
   
   initGame();  
 }
@@ -234,10 +234,10 @@ void initGame(){
   greenChooseY = 220;  
   
   // -bar
-  redItembar = new Bar(6, itemBar);
-  greenItembar = new Bar(6, itemBar);
-  redBottlebar = new Bar(3, bottleBarLeft);
-  greenItembar = new Bar(3, bottleBarRight);
+  redItemBar = new Bar(6, itemBar);
+  greenItemBar = new Bar(6, itemBar);
+  redBottleBar = new Bar(3, bottleBarLeft);
+  greenItemBar = new Bar(3, bottleBarRight);
       
   // -land
   for(int col = 0; col < COL_NUM; col++){
@@ -451,7 +451,7 @@ void draw(){
     }else winnerText = "EVEN";
     
     textAlign(CENTER);
-    textFont(font,50);
+    textFont(abc,50);
     text(winnerText, width / 2, height / 2 - 100);          
     
     // Restart
@@ -492,33 +492,33 @@ void randomBall(){
       else ballRate = floor(random(2));
       
       if(ballRate == 0){ 
-        balls[0 + round * 8] = new Ball(BOMB, itemCol1, itemRow1);
-        balls[1 + round * 8] = new Ball(BOMB, itemCol2, itemRow2);
+        balls[0 + round * 8] = new Ball(BOMB, ballCol1, ballRow1);
+        balls[1 + round * 8] = new Ball(BOMB, ballCol2, ballRow2);
       }else{
-        balls[0 + round * 8] = new Ball(TRAP, itemCol1, itemRow1);
-        balls[1 + round * 8] = new Ball(TRAP, itemCol2, itemRow2);
+        balls[0 + round * 8] = new Ball(TRAP, ballCol1, ballRow1);
+        balls[1 + round * 8] = new Ball(TRAP, ballCol2, ballRow2);
       }
       break;
       
       case 1:
       ballRate = floor(random(10));
       if(ballRate == 0){ 
-        balls[2 + round * 8] = new Ball(BANANA, itemCol1, itemRow1);
-        balls[3 + round * 8] = new Ball(BANANA, itemCol2, itemRow2);
+        balls[2 + round * 8] = new Ball(BANANA, ballCol1, ballRow1);
+        balls[3 + round * 8] = new Ball(BANANA, ballCol2, ballRow2);
       }else{
-        balls[2 + round * 8] = new Ball(DOOR, itemCol1, itemRow1);
-        balls[3 + round * 8] = new Ball(DOOR, itemCol2, itemRow2);
+        balls[2 + round * 8] = new Ball(DOOR, ballCol1, ballRow1);
+        balls[3 + round * 8] = new Ball(DOOR, ballCol2, ballRow2);
       }
       break;
       
       case 2:
       ballRate = floor(random(10));
       if(ballRate == 0){ 
-        balls[4 + round * 8] = new Ball(ICE, itemCol1, itemRow1);
-        balls[5 + round * 8] = new Ball(ICE, itemCol2, itemRow2);
+        balls[4 + round * 8] = new Ball(ICE, ballCol1, ballRow1);
+        balls[5 + round * 8] = new Ball(ICE, ballCol2, ballRow2);
       }else{
-        balls[4 + round * 8] = new Ball(BLOOD, itemCol1, itemRow1);
-        balls[5 + round * 8] = new Ball(BLOOD, itemCol2, itemRow2);
+        balls[4 + round * 8] = new Ball(BLOOD, ballCol1, ballRow1);
+        balls[5 + round * 8] = new Ball(BLOOD, ballCol2, ballRow2);
       }
       break;
       
@@ -527,12 +527,12 @@ void randomBall(){
       else if(items[TRAP][7] != null) ballRate = 1;
       else ballRate = floor(random(2));
 
-      if(itemRate == 0){ 
-        balls[6 + round * 8] = new Ball(BOMB, itemCol1, itemRow1);
-        balls[7 + round * 8] = new Ball(BOMB, itemCol2, itemRow2);
+      if(ballRate == 0){ 
+        balls[6 + round * 8] = new Ball(BOMB, ballCol1, ballRow1);
+        balls[7 + round * 8] = new Ball(BOMB, ballCol2, ballRow2);
       }else{
-        balls[6 + round * 8] = new Ball(TRAP, itemCol1, itemRow1);
-        balls[7 + round * 8] = new Ball(TRAP, itemCol2, itemRow2);
+        balls[6 + round * 8] = new Ball(TRAP, ballCol1, ballRow1);
+        balls[7 + round * 8] = new Ball(TRAP, ballCol2, ballRow2);
       }
       break;
     }
@@ -582,7 +582,7 @@ String convertFrameToTimeString(int frames){
 }
 
 void showRound(){
-  textFont(font,110);
+  textFont(abc,110);
   textAlign(CENTER);
   String roundString = "ROUND:" + (round+1);
   fill(0, 120);  
@@ -592,7 +592,7 @@ void showRound(){
 }
 
 void timeCountdown(){ 
-  textFont(font,110);
+  textFont(abc, 110);
   textAlign(CENTER);
   String timeString = convertFrameToTimeString(gameTimer);
   timeString = "TIME:" + timeString;
@@ -743,7 +743,7 @@ void keyPressed(){
     }
     }
     
-  if(gameState == GAME_FIGHT){ //<>//
+  if(gameState == GAME_FIGHT){
     switch(keyCode){
       case LEFT:
       if(greenChooseCol > 0 && lands[greenChooseCol - 1][greenChooseRow].camp == GREEN){
