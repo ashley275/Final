@@ -20,6 +20,7 @@ class Tower{
   }
   
   void damage(){
+<<<<<<< HEAD
     float greenDamageHealth = map(HEALTH_POINT - greenTowerHP, 0, 1000, 0, 420);
     float redDamageHealth = map(HEALTH_POINT-redTowerHP, 0, 1000, 0, 420);
     if(camp == RED) image(coverImg, 18, 260 , 38 ,redDamageHealth);
@@ -27,4 +28,13 @@ class Tower{
     
     
   }  
+=======
+    float greenDamageHealth = map(HEALTH_POINT-greenTowerHP, 0, 1000, 0, 420);
+    image(greenTowerHealthBarCover, width - 58, 260 , 38 , greenDamageHealth);
+    float redDamageHealth = map(HEALTH_POINT-redTowerHP, 0, 1000, 0, 420);
+    image(redTowerHealthBarCover,18, 260 , 38 ,redDamageHealth);
+  }
+  
+  
+>>>>>>> 572c548854e92a8df57f48113b41054f86680bf8
 }
