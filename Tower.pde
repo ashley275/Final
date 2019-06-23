@@ -27,9 +27,3 @@ class Tower{
   
   
 }
-
-
-/*im    age(redTower,0,220);
-  image(greenTower,1760,220);
-  image(towerHealthBar, 20 , 265);
-  image(towerHealthBar, width-58 , 265);*/
