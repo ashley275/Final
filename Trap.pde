@@ -5,10 +5,6 @@ class Trap extends Item{
     img=trap;
   }
   
-  void display(){
-    image(img, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
-  }
-  
   void use(){  
     for(int i=0; i<2; i++){
       for(int j=0; j<bottles[i].length; j++){

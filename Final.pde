@@ -9,7 +9,7 @@ AudioPlayer towerDie;
 
 // Image
 // -page
-PImage bg, gamestart, gameover, gameread, gameread2, gameread3;
+PImage bg, gamestart, gameover, gameread, gameread2, gameread3, gameread4, gameread5;
 PImage startNormal, startHovered, restartNormal, restartHovered, skipNormal, skipHovered ;
 PImage round1, round2,round3;
 
@@ -48,14 +48,14 @@ final int RESTART_BUTTON_Y = 800;
 
 final int SKIP_BUTTON_WIDTH = 300;
 final int SKIP_BUTTON_HEIGHT = 100;
-final int SKIP_BUTTON_X = 1600;
+final int SKIP_BUTTON_X = 20;
 final int SKIP_BUTTON_Y = 900;
 
 // -gamestate
 int gameState = 0;
 final int GAME_START = 0, GAME_INTRO = 1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER = 4, GAME_ROUND = 5;
 int round = 0;
-
+int introCount;
 
 // -timer
 int gameTimer = 0;
@@ -133,14 +133,14 @@ void setup() {
   gameread = loadImage("img/page/gameread.png");
   gameread2 = loadImage("img/page/gameread2.png");
   gameread3 = loadImage("img/page/gameread3.png");
+  gameread4 = loadImage("img/page/gameread4.png");
+  gameread5 = loadImage("img/page/gameread5.png");
   startNormal = loadImage("img/page/startNormal.png");
   startHovered = loadImage("img/page/startHovered.png");
   restartNormal = loadImage("img/page/restartNormal.png");
   restartHovered = loadImage("img/page/restartHovered.png");
   skipNormal = loadImage("img/page/skipNormal.png");
-  skipHovered = loadImage("img/page/skipHovered.png");
-  
-
+  skipHovered = loadImage("img/page/skipHovered.png");  
   
   // -choose
   redChoose = loadImage("img/choose/redChoose.png");
@@ -296,9 +296,8 @@ void draw(){
     break;
      
     case GAME_INTRO:
-    int count;
-    if(mousePressed)count++;
-    switch(count){
+    if(mousePressed) introCount++;
+    switch(introCount){
       case 0:
       image(gameread,0,0);
       break;
@@ -321,6 +320,7 @@ void draw(){
       gameState = GAME_SET;
       break;
     }
+    
     if(SKIP_BUTTON_X + SKIP_BUTTON_WIDTH > mouseX
       && SKIP_BUTTON_X < mouseX
       && SKIP_BUTTON_Y + SKIP_BUTTON_HEIGHT > mouseY
@@ -688,11 +688,11 @@ void showCondition(){
   textFont(abc,110);
   textAlign(CENTER);
   String roundString = "SET";
-  if (gameState == GAME_FIGHT)roundString = "FIGHT"
+  if (gameState == GAME_FIGHT)roundString = "FIGHT";
   fill(0, 200);  
-  text(roundString, width/2-100, 200);
+  text(roundString, width/2+260, 200);
   fill(#00ffff);
-  text(roundString, width/2+10-100, 210);
+  text(roundString, width/2+10+260, 210);
 }
 
 void timeCountdown(){ 
@@ -708,7 +708,7 @@ void timeCountdown(){
     textcolor = #00ffff;;
   }else if(gameTimer >= 40){
     textcolor = #ff6600;
-  }else #ff0000;
+  }else textcolor = #ff0000;
   
   fill(0, textcolor);  
   text(timeString, width/2, 100);

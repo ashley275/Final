@@ -4,16 +4,6 @@ class Blood extends Item{
     super(col,row);
     img = blood;
   }
-  
-  void display(){
-
-    image(img, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
-    int showTimer=40;
-    showTimer--;
-    if(showTimer<0) isAlive = false ;
-
-  }
-
 
   void use(){
     for(int i=0; i<2; i++){

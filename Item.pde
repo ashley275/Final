@@ -5,6 +5,7 @@ class Item {
 
   void display(){
     image(img, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
+    if(isAlive) text(3, 160 + col * LAND_SIZE, 280 + row * LAND_SIZE);
   }
   
   void use(){

@@ -148,5 +148,7 @@ class Bottle{
       break;      
     }
     popStyle();
+    for(int i = 0; i<rows.length; i++){
+    if(isAlive)text(6, 240 + col * LAND_SIZE, 280 + rows[i] * LAND_SIZE);}
   }
 }
