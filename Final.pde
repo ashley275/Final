@@ -458,6 +458,7 @@ void draw(){
     // TEXT
     String winnerText;    
     if(redTowerHP <= 0 ||  redLandNum < greenLandNum){
+      fill(0);
       winnerText = "THE WINNER IS KAPPA!";
       image(kappaAward, 340, 575, 460, 200);
       image(bolbNormal, 1220, 600);
@@ -469,7 +470,7 @@ void draw(){
     
     textAlign(CENTER);
     textFont(abc,50);
-    text(winnerText, width / 2, height / 2 - 100);          
+    text(winnerText, width / 2, height / 2 - 250);          
     
     // Restart
     if(RESTART_BUTTON_X + RESTART_BUTTON_WIDTH > mouseX
