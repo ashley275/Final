@@ -469,12 +469,12 @@ void draw(){
     
     // TEXT
     String winnerText;    
-    if(redTowerHP <= 0 ||  redLandNum < greenLandNum){
+    if(redTowerHP <= 0 ||  (redTowerHP>0 && greenTowerHP>0 && redLandNum < greenLandNum)){
       fill(0);
       winnerText = "THE WINNER IS KAPPA!";
       image(kappaAward, 340, 575, 460, 200);
       image(bolbNormal, 1220, 600);
-    }else if(greenTowerHP <= 0 || redLandNum > greenLandNum){
+    }else if(greenTowerHP <= 0 || (redTowerHP>0 && greenTowerHP>0 && redLandNum > greenLandNum)){
       winnerText = "THE WINNER IS BOLB!";
       image(bolbAward, 340, 575);
       image(kappaNormal, 1220, 600, 460, 200);
