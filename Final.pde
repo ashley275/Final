@@ -56,6 +56,7 @@ int gameState = 0;
 final int GAME_START = 0, GAME_INTRO=1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER = 4;
 int round = 0;
 
+
 // -timer
 int gameTimer = 0;
 final int GAME_SET_TIME = 200, GAME_FIGHT_TIME = 400;
@@ -113,6 +114,7 @@ Bar greenItemBar;
 Bar redBottleBar;
 Bar greenBottleBar;
 Tower towers;
+RoundPic roundPics;
 
 // Font
 PFont abc;
@@ -147,9 +149,7 @@ void setup() {
   skipNormal = loadImage("img/page/skipNormal.png");
   skipHovered = loadImage("img/page/skipHovered.png");
   
-  round1 = loadImage("img/page/round1.png");
-  round2 = loadImage("img/page/round2.png");
-  round3 = loadImage("img/page/round3.png");
+
   
   // -choose
   redChoose = loadImage("img/choose/redChoose.png");
@@ -200,6 +200,7 @@ void setup() {
   lands = new Land[COL_NUM][ROW_NUM];  
   balls = new Ball[24];
   towers = new Tower();
+  roundPics = new RoundPic();
   
   redItemBar = new Bar(6, itemBar);
   greenItemBar = new Bar(6, itemBar);
@@ -442,6 +443,8 @@ void draw(){
       else{
         round++;
         randomBall();
+        roundPics.isAlive = true;
+        roundPics.display();
         gameState = GAME_SET;
         gameTimer = GAME_SET_TIME * (round + 1);
       }
@@ -571,16 +574,7 @@ boolean isHit(float ax, float ay, float aw, float ah, float bx, float by, float 
           ay < by + bh;
 }
 
-void showRoundPic(){
-float picX, picY; 
-picX = -960;
-picY = height/2;
-//image(CENTER);
-if(round == 0 ) image(round1,picX,picY);
-if(round == 1 ) image(round2,picX,picY);
-if(round == 2 ) image(round3,picX,picY);
-picX++; 
-}
+
   
 void drawGameRound(String text, color textColor){
   textSize(50);
