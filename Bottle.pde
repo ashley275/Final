@@ -52,7 +52,7 @@ class Bottle{
       attack();
       break;      
       case STOP:
-      marchTimer = (walkingTime + idleTime) * timeUnit;
+      marchTimer = (walkingTime + idleTime) * timeUnit;println(1);
       break;
     }
   }
@@ -123,8 +123,6 @@ class Bottle{
         greenLandNum = (camp == GREEN) ? greenLandNum + 1 : greenLandNum - 1;
       }
      lands[col][row].camp = camp;
-     println(camp);
-     println("..."+lands[col][row].camp);
      lands[col][row].hasBottle = true;
      lands[col - camp][row].hasBottle = false;
     }

@@ -353,7 +353,6 @@ void draw(){
     }      
       
     // -item
-    if(round > 0) randomBall();
     for(int i = 0; i < balls.length; i++){
       if(balls[i] != null && balls[i].isAlive) balls[i].display();
     }
@@ -442,6 +441,7 @@ void draw(){
       if(round == 2) gameState = GAME_OVER;
       else{
         round++;
+        randomBall();
         gameState = GAME_SET;
         gameTimer = GAME_SET_TIME * (round + 1);
       }
@@ -530,7 +530,7 @@ void randomBall(){
       
       case 2:
       ballRate = floor(random(10));
-      if(ballRate == 0){ 
+      if(ballRate > 0){ 
         balls[4 + round * 8] = new Ball(ICE, ballCol1, ballRow1);
         balls[5 + round * 8] = new Ball(ICE, ballCol2, ballRow2);
       }else{
@@ -641,30 +641,30 @@ void keyPressed(){
     if(key==CODED){
       //Green choose
       switch(keyCode){
-      case LEFT:
-      if(greenChooseCol > 0 && lands[greenChooseCol - 1][greenChooseRow].camp == GREEN){
-        greenChooseX -= 80;
-        greenChooseCol -= 1;
-      }
-      break;
-      case RIGHT:
-      if(greenChooseCol < 19 && lands[greenChooseCol + 1][greenChooseRow].camp == GREEN){
-        greenChooseX += 80;
-        greenChooseCol += 1;
-      }
-      break;
-      case DOWN:
-      if(greenChooseRow < 7 && lands[greenChooseCol][greenChooseRow + 1].camp == GREEN){
-        greenChooseY += 80;
-        greenChooseRow += 1;
-      }
-      break;
-      case UP:
-      if(greenChooseRow > 0 && lands[greenChooseCol][greenChooseRow - 1].camp == GREEN){
-        greenChooseY -= 80;
-        greenChooseRow -= 1;
-      }
-      break;
+        case LEFT:
+        if(greenChooseCol > 0 && lands[greenChooseCol - 1][greenChooseRow].camp == GREEN){
+          greenChooseX -= 80;
+          greenChooseCol -= 1;
+        }
+        break;
+        case RIGHT:
+        if(greenChooseCol < 19 && lands[greenChooseCol + 1][greenChooseRow].camp == GREEN){
+          greenChooseX += 80;
+          greenChooseCol += 1;
+        }
+        break;
+        case DOWN:
+        if(greenChooseRow < 7 && lands[greenChooseCol][greenChooseRow + 1].camp == GREEN){
+          greenChooseY += 80;
+          greenChooseRow += 1;
+        }
+        break;
+        case UP:
+        if(greenChooseRow > 0 && lands[greenChooseCol][greenChooseRow - 1].camp == GREEN){
+          greenChooseY -= 80;
+          greenChooseRow -= 1;
+        }
+        break;
       }
     }
     //Red choose
@@ -758,250 +758,144 @@ void keyPressed(){
       }
       break;
     }
-  }
+    break;
     
-  case GAME_FIGHT:
-  switch(keyCode){
-    case LEFT:
-    if(greenChooseCol > 0){
-      greenChooseX -= 80;
-      greenChooseCol -= 1;
+    case GAME_FIGHT:
+    switch(keyCode){
+    //Green choose
+      case LEFT:
+      if(greenChooseCol > 0){
+        greenChooseX -= 80;
+        greenChooseCol -= 1;
+      }
+      break;
+      case RIGHT:
+      if(greenChooseCol < 19){
+        greenChooseX += 80;
+        greenChooseCol += 1;
+      }
+      break;
+      case DOWN:
+      if(greenChooseRow < 7){
+        greenChooseY += 80;
+        greenChooseRow += 1;
+      }
+      break;
+      case UP:
+      if(greenChooseRow > 0){
+        greenChooseY -= 80;
+        greenChooseRow -= 1;
+      }
+      break;
     }
-    break;
-    case RIGHT:
-    if(greenChooseCol < 19){
-      greenChooseX += 80;
-      greenChooseCol += 1;
-    }
-    break;
-    case DOWN:
-    if(greenChooseRow < 7){
-      greenChooseY += 80;
-      greenChooseRow += 1;
-    }
-    break;
-    case UP:
-    if(greenChooseRow > 0){
-      greenChooseY -= 80;
-      greenChooseRow -= 1;
-    }
-    break;
-  }
-    
-    
-  switch(key){
-    case 'a':
-    if(redChooseCol > 0){
-      redChooseX -= 80;
-      redChooseCol -= 1;
-    }
-    break;
-    case 'd':
-    if(redChooseCol < 19){
-      redChooseX += 80;
-      redChooseCol += 1;
-    }
-    break;
-    case 's':
-    if(redChooseRow < 7){
-      redChooseY += 80;
-      redChooseRow += 1;
-    }
-    break;
-    case 'w':
-    if(redChooseRow > 0){
-      redChooseY -= 80;
-      redChooseRow -= 1;
-    }
-    break;
+      
+      
+    switch(key){
+    //Red choose
+      case 'a':
+      if(redChooseCol > 0){
+        redChooseX -= 80;
+        redChooseCol -= 1;
+      }
+      break;
+      case 'd':
+      if(redChooseCol < 19){
+        redChooseX += 80;
+        redChooseCol += 1;
+      }
+      break;
+      case 's':
+      if(redChooseRow < 7){
+        redChooseY += 80;
+        redChooseRow += 1;
+      }
+      break;
+      case 'w':
+      if(redChooseRow > 0){
+        redChooseY -= 80;
+        redChooseRow -= 1;
+      }
+      break;                 
        
-        
-        
-    case  'z' :
-    if(lands[redChooseCol][redChooseRow].hasItem == false){
-      items[BLOOD][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
-        redBottleUsed++;
-        redLargeBottleAVL--;
-        for(int i = 0; i < 3; i++){
-          lands[redChooseCol][redChooseRow + i].hasBottle = true;
-        }
+    //Put red item
+      case  'z' :
+      if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[BLOOD] > 0){
+        items[BLOOD][redItemBar.number[BLOOD] - 1] = new Blood(redChooseCol, redChooseRow);
+        redItemBar.number[BLOOD]--;
       }
-    for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 1 && redItemBar.barNumber[BLOOD]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              redItemBar.barNumber[BLOOD]--;                
-              items[k].x=redChooseX;
-              items[k].y=redChooseY;
-            }
-          }
-        }
-      }
-          break ;
+      break ;
       case  'x' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 2 && redItemBar.barNumber[BANANA]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              redItemBar.barNumber[BANANA]--;                
-              items[k].x=redChooseX;
-              items[k].y=redChooseY;
-            }
-          }
-        }
+      if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[BANANA] > 0){
+        items[BANANA][redItemBar.number[BANANA] - 1] = new Banana(redChooseCol, redChooseRow);
+        redItemBar.number[BANANA]--;
       }
-          break ;
+      break ;
       case  'c' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 3 && redItemBar.barNumber[DOOR]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              redItemBar.barNumber[DOOR]--;                
-              items[k].x=redChooseX;
-              items[k].y=redChooseY;
-            }
-          }
-        }
+      if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[DOOR] > 0){
+        items[DOOR][redItemBar.number[DOOR] - 1] = new Door(redChooseCol, redChooseRow);
+        redItemBar.number[DOOR]--;
       }
-          break ;
+      break ;
       case  'v' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null ){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 4 && redItemBar.barNumber[BOMB]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              redItemBar.barNumber[BOMB]--;                
-              items[k].x=redChooseX;
-              items[k].y=redChooseY;
-            }
-          }
-        }
+      if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[BOMB] > 0){
+        items[BOMB][redItemBar.number[BOMB] - 1] = new Bomb(redChooseCol, redChooseRow);
+        redItemBar.number[BOMB]--;
       }
-          break ;
+      break ;
       case  'b' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 5 && redItemBar.barNumber[ICE]>0){
-              
-              redItemBar.barNumber[ICE]--;
-            }
-          }
-        }
+      if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[ICE] > 0){
+        items[ICE][redItemBar.number[ICE] - 1] = new Ice(RED, redChooseCol, redChooseRow);
+        redItemBar.number[ICE]--;
       }
-          break ;
+      break ;
       case  'n' :
-        for(int k=0; k<items.length; k++){
-          if(items[k]!= null ){
-            if(items[k].itemState == ITEM_USE_STATE){
-              if(items[k].itemKind == 6 && redItemBar.barNumber[TRAP]>0){
-                items[k].isAlive = true;
-                items[k].display();
-                redItemBar.barNumber[TRAP]--;                
-                items[k].x=redChooseX;
-                items[k].y=redChooseY;
-              }
-            }
-          }
-        }
-          break ;
+      if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[TRAP] > 0){
+        items[TRAP][redItemBar.number[TRAP] - 1] = new Trap(redChooseCol, redChooseRow);
+        redItemBar.number[TRAP]--;
+      }
+      break ;
+      
+    //Put green item
       case  '1' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 1 && greenItemBar.barNumber[BLOOD]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              greenItemBar.barNumber[BLOOD]--;                
-              items[k].x=greenChooseX;
-              items[k].y=greenChooseY;
-            }
-          }
-        }
+      if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[BLOOD] > 0){
+        items[BANANA][greenItemBar.number[BLOOD] - 1] = new Blood(greenChooseCol, greenChooseRow);
+        greenItemBar.number[BLOOD]--;
       }
-          break ;
+      break ;
       case  '2' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 2 && greenItemBar.barNumber[BANANA]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              greenItemBar.barNumber[BANANA]--;                
-              items[k].x=greenChooseX;
-              items[k].y=greenChooseY;
-            }
-          }
-        }
+      if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[BANANA] > 0){
+        items[BANANA][greenItemBar.number[BANANA] - 1] = new Banana(greenChooseCol, greenChooseRow);
+        greenItemBar.number[BANANA]--;
       }
-          break ;
+      break ;
       case  '3' :
-       for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 3 && greenItemBar.barNumber[DOOR]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              greenItemBar.barNumber[DOOR]--;                
-              items[k].x=greenChooseX;
-              items[k].y=greenChooseY;
-            }
-          }
-        }
+      if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[DOOR] > 0){
+        items[DOOR][greenItemBar.number[DOOR] - 1] = new Door(greenChooseCol, greenChooseRow);
+        greenItemBar.number[DOOR]--;
       }
-          break ;
+      break ;
       case  '4' :
-      for(int k=0; k<items.length; k++){
-        if(items[k]!= null ){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 4 && greenItemBar.barNumber[BOMB]>0){
-              items[k].isAlive = true;
-              items[k].display();
-              greenItemBar.barNumber[BOMB]--;                
-              items[k].x=greenChooseX;
-              items[k].y=greenChooseY;
-            }
-          }
-        }
+      if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[BOMB] > 0){
+        items[BOMB][greenItemBar.number[BOMB] - 1] = new Bomb(greenChooseCol, greenChooseRow);
+        greenItemBar.number[BOMB]--;
       }
-          break ;
+      break ;
       case  '5' :
-     for(int k=0; k<items.length; k++){
-        if(items[k]!= null){
-          if(items[k].itemState == ITEM_USE_STATE){
-            if(items[k].itemKind == 5 && greenItemBar.barNumber[ICE]>0){
-              
-              greenItemBar.barNumber[ICE]--;
-            }
-          }
-        }
+      if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[ICE] > 0){
+        items[ICE][greenItemBar.number[ICE] - 1] = new Ice(GREEN, greenChooseCol, greenChooseRow);
+        greenItemBar.number[ICE]--;
       }
-          break ;
+      break ;
       case  '6' :
-      for(int k=0; k<items.length; k++){
-          if(items[k]!= null ){
-            if(items[k].itemState == ITEM_USE_STATE){
-              if(items[k].itemKind == 6 && greenItemBar.barNumber[TRAP]>0){
-                items[k].isAlive = true;
-                items[k].display();
-                greenItemBar.barNumber[TRAP]--;                
-                items[k].x=greenChooseX;
-                items[k].y=greenChooseY;
-              }
-            }
-          }
-        }
-          break ;    
-
+      if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[TRAP] > 0){
+        items[TRAP][greenItemBar.number[TRAP] - 1] = new Trap(greenChooseCol, greenChooseRow);
+        greenItemBar.number[TRAP]--;
+      }
+      break ;
+    }
+    break;
   }
-  }
+  
   switch(key){//demo
     case 'g':
       gameState = GAME_START;
@@ -1014,8 +908,7 @@ void keyPressed(){
       break;
     case 'k':
       gameState = GAME_OVER;
-    break;
-  
+    break;  
   }
 }
 

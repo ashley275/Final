@@ -1,10 +1,9 @@
-//class Door extends Item{
+class Door extends Item{
   
-//  Door(int col, int row){
-//    super(col,row); 
-//    imgPick=doorball;
-//    imgUse=door;
-//  }
+  Door(int col, int row){
+    super(col,row); 
+    img=door;
+  }
   
 //  void display(){
 //    if(isAlive==true){
@@ -32,4 +31,4 @@
 //  //}
 //  //}
 //  //}
-//}
+}

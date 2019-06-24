@@ -1,10 +1,9 @@
-//class Banana extends Item{
+class Banana extends Item{
   
-//  Banana(int col, int row){
-//    super(col,row);
-//    imgPick = bananaball;
-//    imgUse = banana;
-//  }
+  Banana(int col, int row){
+    super(col,row);
+    img = banana;
+  }
   
 //  void display(){
 //    int showTimer;
@@ -40,4 +39,4 @@
 //    }
 //  }
 //}
-//}
+}
