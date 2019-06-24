@@ -221,9 +221,6 @@ void initGame(){
   // -tower
   towers = new Tower();
 
-  // -player
-  image(bolbNormal, 160, 60);
-  image(kappaNormal, 1460, 60,300,130);
 
   // Variable
   // -round
@@ -336,6 +333,10 @@ void draw(){
     timeCountdown();
     showRound();
     
+    // -player
+    image(bolbNormal, 160, 60);
+    image(kappaNormal, 1460, 60,300,130);
+    
     // -tower
     towers.display();
     
@@ -394,6 +395,10 @@ void draw(){
     image(bg, 0, 0, 1920, 1080);
     timeCountdown();
     showRound();
+    
+    // -player
+    image(bolbNormal, 160, 60);
+    image(kappaNormal, 1460, 60,300,130);
     
     // -tower
     towers.display();
