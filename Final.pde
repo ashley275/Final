@@ -631,7 +631,7 @@ void showCondition(){
   textFont(abc,110);
   textAlign(CENTER);
   String roundString = "SET";
-  if (gameState == GAME_FIGHT)roundString = "ATTACK"
+  if (gameState == GAME_FIGHT)roundString = "FIGHT"
   fill(0, 200);  
   text(roundString, width/2-80, 200);
   fill(#00ffff);
