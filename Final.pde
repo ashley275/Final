@@ -53,7 +53,7 @@ final int SKIP_BUTTON_Y = 900;
 
 // -gamestate
 int gameState = 0;
-final int GAME_START = 0, GAME_INTRO = 1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER = 4;
+final int GAME_START = 0, GAME_INTRO = 1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER = 4;GAME_ROUND = 5;
 int round = 0;
 
 
@@ -451,14 +451,11 @@ void draw(){
       else{
         round++;
         randomBall();
-<<<<<<< HEAD
         addBottle();
-=======
-        roundPics.isAlive = true;
-        roundPics.display();
->>>>>>> e80797496d12669ec92840d983e51606d7e6d1ea
-        gameState = GAME_SET;
+
+        gameState = GAME_ROUND;
         gameTimer = GAME_SET_TIME * (round + 1);
+        
       }
     }else{
       gameTimer--;
@@ -501,6 +498,12 @@ void draw(){
     }else{      
        image(restartNormal, RESTART_BUTTON_X, RESTART_BUTTON_Y);      
     }         
+    break;
+    
+    case GAME_ROUND:
+    roundPics.isAlive = true;
+    roundPics.display();
+    if(roundPics.showTimer<=0)gameState = GAME_SET;
     break;
   }
 }
