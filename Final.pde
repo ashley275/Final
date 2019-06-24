@@ -530,7 +530,7 @@ void randomBall(){
       
       case 2:
       ballRate = floor(random(10));
-      if(ballRate > 0){ 
+      if(ballRate == 0){ 
         balls[4 + round * 8] = new Ball(ICE, ballCol1, ballRow1);
         balls[5 + round * 8] = new Ball(ICE, ballCol2, ballRow2);
       }else{
@@ -642,25 +642,25 @@ void keyPressed(){
       //Green choose
       switch(keyCode){
         case LEFT:
-        if(greenChooseCol > 0 && lands[greenChooseCol - 1][greenChooseRow].camp == GREEN){
+        if(greenChooseCol > 0){
           greenChooseX -= 80;
           greenChooseCol -= 1;
         }
         break;
         case RIGHT:
-        if(greenChooseCol < 19 && lands[greenChooseCol + 1][greenChooseRow].camp == GREEN){
+        if(greenChooseCol < 19){
           greenChooseX += 80;
           greenChooseCol += 1;
         }
         break;
         case DOWN:
-        if(greenChooseRow < 7 && lands[greenChooseCol][greenChooseRow + 1].camp == GREEN){
+        if(greenChooseRow < 7){
           greenChooseY += 80;
           greenChooseRow += 1;
         }
         break;
         case UP:
-        if(greenChooseRow > 0 && lands[greenChooseCol][greenChooseRow - 1].camp == GREEN){
+        if(greenChooseRow > 0){
           greenChooseY -= 80;
           greenChooseRow -= 1;
         }
@@ -670,25 +670,25 @@ void keyPressed(){
     //Red choose
     switch(key){
       case 'a':
-      if(redChooseCol > 0 && lands[redChooseCol - 1][redChooseRow].camp == RED){
+      if(redChooseCol > 0){
         redChooseX -= 80;
         redChooseCol -= 1;
       }
       break;
       case 'd':
-      if(redChooseCol < 19 && lands[redChooseCol + 1][redChooseRow].camp == RED){
+      if(redChooseCol < 19){
         redChooseX += 80;
         redChooseCol += 1;
       }
       break;
       case 's':
-      if(redChooseRow < 7 && lands[redChooseCol][redChooseRow + 1].camp == RED){
+      if(redChooseRow < 7){
         redChooseY += 80;
         redChooseRow += 1;
       }
       break;
       case 'w':
-      if(redChooseRow > 0 && lands[redChooseCol][redChooseRow - 1].camp == RED){
+      if(redChooseRow > 0){
         redChooseY -= 80;
         redChooseRow -= 1;
       }
@@ -696,7 +696,9 @@ void keyPressed(){
       
     //Put red bottle
       case 'z':
-      if(lands[redChooseCol][redChooseRow].hasBottle == false ){
+      if(lands[redChooseCol][redChooseRow].camp == RED 
+      && !lands[redChooseCol][redChooseRow].hasBottle
+      && !lands[redChooseCol][redChooseRow].hasItem){
         bottles[0][redBottleUsed] = new SmallBottle(RED, redChooseCol, redChooseRow);
         redBottleUsed++;
         redSmallBottleAVL--;
@@ -704,9 +706,10 @@ void keyPressed(){
       }
       break;
       case 'x':
-      if(lands[redChooseCol][redChooseRow].hasBottle == false
-      && redChooseCol > 0 && redChooseCol < 19
-      && redChooseRow > 0 && redChooseRow < 7){
+      if(lands[redChooseCol][redChooseRow].camp == RED
+      && redChooseCol > 0 && redChooseCol < 19 && redChooseRow > 0 && redChooseCol < 7
+      && !lands[redChooseCol][redChooseRow].hasBottle
+      && !lands[redChooseCol][redChooseRow].hasItem){
         bottles[0][redBottleUsed] = new MiddleBottle(RED, redChooseCol, redChooseRow);
         redBottleUsed++;
         redMiddleBottleAVL--;
@@ -714,9 +717,10 @@ void keyPressed(){
       }
       break;
       case 'c':
-      if(redChooseRow < 6 && lands[redChooseCol][redChooseRow].hasBottle == false
-      && lands[redChooseCol][redChooseRow + 1].hasBottle == false
-      && lands[redChooseCol][redChooseRow + 2].hasBottle == false){
+      if(lands[redChooseCol][redChooseRow].camp == RED 
+      && !lands[redChooseCol][redChooseRow].hasBottle && !lands[redChooseCol][redChooseRow].hasItem
+      && !lands[redChooseCol][redChooseRow + 1].hasBottle && !lands[redChooseCol][redChooseRow + 1].hasItem
+      && !lands[redChooseCol][redChooseRow + 2].hasBottle && !lands[redChooseCol][redChooseRow + 2].hasItem){
         bottles[0][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
         redBottleUsed++;
         redLargeBottleAVL--;
@@ -728,7 +732,9 @@ void keyPressed(){
     
     //Put green bottle
       case '1':
-      if(lands[greenChooseCol][greenChooseRow].hasBottle == false){
+      if(lands[greenChooseCol][greenChooseRow].camp == GREEN 
+      && !lands[greenChooseCol][greenChooseRow].hasBottle
+      && !lands[greenChooseCol][greenChooseRow].hasItem){
         bottles[1][greenBottleUsed] = new SmallBottle(GREEN, greenChooseCol, greenChooseRow);
         greenBottleUsed++;
         greenSmallBottleAVL--;
@@ -736,9 +742,10 @@ void keyPressed(){
       }
       break;
       case '2':
-      if(lands[greenChooseCol][greenChooseRow].hasBottle == false
-      && greenChooseCol > 0 && greenChooseCol < 19
-      && greenChooseRow > 0 && greenChooseRow < 7){
+      if(lands[greenChooseCol][greenChooseRow].camp == GREEN
+      && greenChooseCol > 0 && greenChooseCol < 19 && greenChooseRow > 0 && greenChooseRow < 7
+      && !lands[greenChooseCol][greenChooseRow].hasBottle
+      && !lands[greenChooseCol][greenChooseRow].hasItem){
         bottles[1][greenBottleUsed] = new MiddleBottle(GREEN, greenChooseCol, greenChooseRow);
         greenBottleUsed++;
         greenMiddleBottleAVL--;
@@ -746,9 +753,10 @@ void keyPressed(){
       }
       break;
       case '3':
-      if(greenChooseRow < 6 && lands[greenChooseCol][greenChooseRow].hasBottle == false
-      && lands[greenChooseCol][greenChooseRow + 1].hasBottle == false
-      && lands[greenChooseCol][greenChooseRow + 2].hasBottle == false){
+      if(lands[greenChooseCol][greenChooseRow].camp == GREEN 
+      && !lands[greenChooseCol][greenChooseRow].hasBottle && !lands[greenChooseCol][greenChooseRow].hasItem
+      && !lands[greenChooseCol][greenChooseRow + 1].hasBottle && !lands[greenChooseCol][greenChooseRow + 1].hasItem
+      && !lands[greenChooseCol][greenChooseRow + 2].hasBottle && !lands[greenChooseCol][greenChooseRow + 2].hasItem){
         bottles[1][greenBottleUsed] = new LargeBottle(GREEN, greenChooseCol, greenChooseRow);
         greenBottleUsed++;
         greenLargeBottleAVL--;
