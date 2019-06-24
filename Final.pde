@@ -59,7 +59,7 @@ int round = 0;
 
 // -timer
 int gameTimer = 0;
-final int GAME_SET_TIME = 200, GAME_FIGHT_TIME = 400;
+final int GAME_SET_TIME = 100, GAME_FIGHT_TIME = 100;
 
 // -camp
 final int RED = 1, GREEN = -1, OWNERLESS = 0;
@@ -446,12 +446,11 @@ void draw(){
       else{
         round++;
         randomBall();
-<<<<<<< HEAD
         addBottle();
-=======
+
         roundPics.isAlive = true;
         roundPics.display();
->>>>>>> e80797496d12669ec92840d983e51606d7e6d1ea
+        
         gameState = GAME_SET;
         gameTimer = GAME_SET_TIME * (round + 1);
       }
@@ -464,7 +463,7 @@ void draw(){
     case GAME_OVER:
     image(gameover, 0, 0);
     bottleDie.play();
-    
+
     // TEXT
     String winnerText;    
     if(redTowerHP <= 0 ||  redLandNum < greenLandNum){
@@ -727,7 +726,7 @@ void keyPressed(){
       }
       break;
       case 'c':
-      if(lands[redChooseCol][redChooseRow].camp == RED && redChooseCol < 6 && redBottleBar.number[BOTTLE_LARGE] > 0
+      if(lands[redChooseCol][redChooseRow].camp == RED && redChooseRow < 6 && redBottleBar.number[BOTTLE_LARGE] > 0
       && !lands[redChooseCol][redChooseRow].hasBottle && !lands[redChooseCol][redChooseRow].hasItem
       && !lands[redChooseCol][redChooseRow + 1].hasBottle && !lands[redChooseCol][redChooseRow + 1].hasItem
       && !lands[redChooseCol][redChooseRow + 2].hasBottle && !lands[redChooseCol][redChooseRow + 2].hasItem){
@@ -764,7 +763,7 @@ void keyPressed(){
       }
       break;
       case '3':
-      if(lands[greenChooseCol][greenChooseRow].camp == GREEN && greenChooseCol < 6 && greenBottleBar.number[BOTTLE_LARGE] > 0
+      if(lands[greenChooseCol][greenChooseRow].camp == GREEN && greenChooseRow < 6 && greenBottleBar.number[BOTTLE_LARGE] > 0
       && !lands[greenChooseCol][greenChooseRow].hasBottle && !lands[greenChooseCol][greenChooseRow].hasItem
       && !lands[greenChooseCol][greenChooseRow + 1].hasBottle && !lands[greenChooseCol][greenChooseRow + 1].hasItem
       && !lands[greenChooseCol][greenChooseRow + 2].hasBottle && !lands[greenChooseCol][greenChooseRow + 2].hasItem){
@@ -839,7 +838,7 @@ void keyPressed(){
     //Put red item
       case  'z' :
       if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[BLOOD] > 0){
-        for(int i = 0; i < items[BLOOD}.length; i++){
+        for(int i = 0; i < items[BLOOD].length; i++){
           if(items[BLOOD][i] == null){
             items[BLOOD][i] = new Blood(redChooseCol, redChooseRow);
             redItemBar.number[BLOOD]--;
@@ -850,7 +849,7 @@ void keyPressed(){
       break ;
       case  'x' :
       if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[BANANA] > 0){
-        for(int i = 0; i < items[BANANA}.length; i++){
+        for(int i = 0; i < items[BANANA].length; i++){
           if(items[BANANA][i] == null){
             items[BANANA][i] = new Banana(redChooseCol, redChooseRow);
             redItemBar.number[BANANA]--;
@@ -861,7 +860,7 @@ void keyPressed(){
       break ;
       case  'c' :
       if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[DOOR] > 0){
-        for(int i = 0; i < items[DOOR}.length; i++){
+        for(int i = 0; i < items[DOOR].length; i++){
           if(items[DOOR][i] == null){
             items[DOOR][i] = new Door(redChooseCol, redChooseRow);
             redItemBar.number[DOOR]--;
@@ -872,7 +871,7 @@ void keyPressed(){
       break ;
       case  'v' :
       if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[BOMB] > 0){
-        for(int i = 0; i < items[BOMB}.length; i++){
+        for(int i = 0; i < items[BOMB].length; i++){
           if(items[BOMB][i] == null){
             items[BOMB][i] = new Bomb(redChooseCol, redChooseRow);
             redItemBar.number[BOMB]--;
@@ -883,9 +882,9 @@ void keyPressed(){
       break ;
       case  'b' :
       if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[ICE] > 0){
-        for(int i = 0; i < items[ICE}.length; i++){
+        for(int i = 0; i < items[ICE].length; i++){
           if(items[ICE][i] == null){
-            items[ICE][i] = new Ice(redChooseCol, redChooseRow);
+            items[ICE][i] = new Ice(RED, redChooseCol, redChooseRow);
             redItemBar.number[ICE]--;
             break;
           }
@@ -894,9 +893,9 @@ void keyPressed(){
       break ;
       case  'n' :
       if(lands[redChooseCol][redChooseRow].hasItem == false && redItemBar.number[TRAP] > 0){
-        for(int i = 0; i < items[TRAP}.length; i++){
-          if(items[TPAP][i] == null){
-            items[PTAP][i] = new Trap(redChooseCol, redChooseRow);
+        for(int i = 0; i < items[TRAP].length; i++){
+          if(items[TRAP][i] == null){
+            items[TRAP][i] = new Trap(redChooseCol, redChooseRow);
             redItemBar.number[TRAP]--;
             break;
           }
@@ -907,7 +906,7 @@ void keyPressed(){
     //Put green item
       case  '1' :
       if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[BLOOD] > 0){
-        for(int i = 0; i < items[BLOOD}.length; i++){
+        for(int i = 0; i < items[BLOOD].length; i++){
           if(items[BLOOD][i] == null){
             items[BLOOD][i] = new Blood(redChooseCol, redChooseRow);
             redItemBar.number[BLOOD]--;
@@ -918,7 +917,7 @@ void keyPressed(){
       break ;
       case  '2' :
       if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[BANANA] > 0){
-        for(int i = 0; i < items[BANANA}.length; i++){
+        for(int i = 0; i < items[BANANA].length; i++){
           if(items[BANANA][i] == null){
             items[BANANA][i] = new Banana(redChooseCol, redChooseRow);
             redItemBar.number[BANANA]--;
@@ -929,7 +928,7 @@ void keyPressed(){
       break ;
       case  '3' :
       if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[DOOR] > 0){
-        for(int i = 0; i < items[DOOR}.length; i++){
+        for(int i = 0; i < items[DOOR].length; i++){
           if(items[DOOR][i] == null){
             items[DOOR][i] = new Door(redChooseCol, redChooseRow);
             redItemBar.number[DOOR]--;
@@ -940,7 +939,7 @@ void keyPressed(){
       break ;
       case  '4' :
       if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[BOMB] > 0){
-        for(int i = 0; i < items[BOMB}.length; i++){
+        for(int i = 0; i < items[BOMB].length; i++){
           if(items[BOMB][i] == null){
             items[BOMB][i] = new Bomb(redChooseCol, redChooseRow);
             redItemBar.number[BOMB]--;
@@ -951,9 +950,9 @@ void keyPressed(){
       break ;
       case  '5' :
       if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[ICE] > 0){
-        for(int i = 0; i < items[ICE}.length; i++){
+        for(int i = 0; i < items[ICE].length; i++){
           if(items[ICE][i] == null){
-            items[ICE][i] = new Ice(redChooseCol, redChooseRow);
+            items[ICE][i] = new Ice(RED, redChooseCol, redChooseRow);
             redItemBar.number[ICE]--;
             break;
           }
@@ -962,7 +961,7 @@ void keyPressed(){
       break ;
       case  '6' :
       if(lands[greenChooseCol][greenChooseRow].hasItem == false && greenItemBar.number[TRAP] > 0){
-        for(int i = 0; i < items[TRAP}.length; i++){
+        for(int i = 0; i < items[TRAP].length; i++){
           if(items[TRAP][i] == null){
             items[TRAP][i] = new Trap(redChooseCol, redChooseRow);
             redItemBar.number[TRAP]--;
