@@ -643,11 +643,22 @@ void timeCountdown(){
   textAlign(CENTER);
   String timeString = convertFrameToTimeString(gameTimer);
   timeString = "TIME:" + timeString;
-  fill(0, 120);  
+  
+  int textcolor = 0;
+  if(gameTimer >= 120){
+    textcolor = 120;
+  }else if(gameTimer >= 80){
+    textcolor = #00ffff;;
+  }else if(gameTimer >= 40){
+    textcolor = #ff6600;
+  }else #ff0000;
+  
+  fill(0, textcolor);  
   text(timeString, width/2, 100);
   fill(#00ffff);
   text(timeString, width/2+10, 110);
   
+
   
 }
 
