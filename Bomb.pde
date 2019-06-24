@@ -7,7 +7,7 @@ class Bomb extends Item{
   
   void display(){
     boolean isAliveImg = true;
-    if(isAliveImg) image(img, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
+    if(isAliveImg) image(img, 160 + (col-1) * LAND_SIZE, 220 + (row-1) * LAND_SIZE);
     int showTimer=40;
     showTimer--;
     if(showTimer<0) isAliveImg = false ;
