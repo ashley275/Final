@@ -12,11 +12,13 @@ class Banana extends Item{
         if(bottles[i][j] == null || !bottles[i][j].isAlive) continue;
         
         //banana die
-        for(int c=0; c<bottles[i][j].rows.length; c++){
-          if(bottles[i][j].rows[c]!=-1 && bottles[i][j].col==col && bottles[i][j].rows[c]==row){
+        for(int c = 0; c < bottles[i][j].rows.length; c++){
+          if(bottles[i][j].rows[c] != -1 && bottles[i][j].col == col && bottles[i][j].rows[c] == row){
             die();
-            if(i == 0) bottles[i][j].x -= 3 * LAND_SIZE;
-            if(i == 1) bottles[i][j].x += 3 * LAND_SIZE;
+            lands[col][row].hasBottle = false;
+            bottles[i][j].col -= bottles[i][j].camp * 3;
+            bottles[i][j].x -= LAND_SIZE * 3;            
+            lands[col - bottles[i][j].camp * 3][row].hasBottle = true;
             
             //other soldier die 
             for(int a = 0; a < 2; a++){

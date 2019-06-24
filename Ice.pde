@@ -13,11 +13,11 @@ class Ice extends Item{
     for(int j = 0; j < bottles[i].length; j++){
       if(bottles[i][j] != null){
         if(iceTimer > 0 ){
-          bottles[1][j].update = false;
+          bottles[i][j].update = false;
           bottles[i][j].movement = bottles[i][j].STOP;
-          iceTimer--;
+          iceTimer--;//println(iceTimer);
         }else{
-          bottles[1][j].update = true;
+          bottles[i][j].update = true;
           die();
         }
       }

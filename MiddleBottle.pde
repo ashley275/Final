@@ -11,6 +11,7 @@ class MiddleBottle extends Bottle{
   void display(){
     switch(movement){
       case MARCH:
+      case STOP:
       image(marchImg,x - LAND_SIZE,y- LAND_SIZE);
       break;
       case ATTACK:

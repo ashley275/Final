@@ -300,21 +300,27 @@ void draw(){
     switch(introCount){
       case 0:
       image(gameread,0,0);
+      mousePressed = false;
       break;
       case 1:
       image(gameread2,0,0);
+      mousePressed = false;
       break;
       case 2:
-      image(gameread3,0,0);         
+      image(gameread3,0,0); 
+      mousePressed = false;
       break;
       case 3:
       image(gameread3,0,0);
+      mousePressed = false;
       break;
       case 4:
       image(gameread4,0,0);
+      mousePressed = false;
       break;      
       case 5:
       image(gameread5,0,0);
+      mousePressed = false;
       break;   
       case 6:
       gameState = GAME_SET;
@@ -608,7 +614,7 @@ void randomBall(){
       
       case 2:
       ballRate = floor(random(10));
-      if(ballRate == 0){ 
+      if(ballRate > 0){ 
         balls[4 + round * 8] = new Ball(ICE, ballCol1, ballRow1);
         balls[5 + round * 8] = new Ball(ICE, ballCol2, ballRow2);
       }else{
@@ -669,7 +675,7 @@ void drawGameRound(String text, color textColor){
 String convertFrameToTimeString(int frames){
   String result = "";
   float totalSeconds = float(frames) / 40;
-  result += nf(round(totalSeconds), 2);
+  result += nf(ceil(totalSeconds), 2);
   
   return result;
 }
@@ -703,16 +709,16 @@ void timeCountdown(){
   
   int textcolor = 0;
   if(gameTimer >= 120){
-    textcolor = 120;
+    textcolor = #00ffff;
   }else if(gameTimer >= 80){
-    textcolor = #00ffff;;
+    textcolor = #ffff00;
   }else if(gameTimer >= 40){
     textcolor = #ff6600;
   }else textcolor = #ff0000;
   
-  fill(textcolor);  
+  fill(0, 200);  
   text(timeString, width/2, 100);
-  fill(#00ffff);
+  fill(textcolor);
   text(timeString, width/2+10, 110);
   
 
