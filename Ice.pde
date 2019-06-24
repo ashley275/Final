@@ -21,7 +21,10 @@ class Ice extends Item{
     //  }
     //}
     for(int j = 0; j < bottles[1].length; j++){
-      if(bottles[1][j] != null) bottles[1][j].movement = bottles[1][j].STOP;println(1);
+      if(bottles[1][j] != null){
+        bottles[1][j].update = false;
+        bottles[1][j].movement = bottles[1][j].STOP;
+      }
     }
   }
 }
