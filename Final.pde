@@ -332,6 +332,7 @@ void draw(){
     image(bg, 0, 0, 1920, 1080);
     timeCountdown();
     showRound();
+    showCondition();
     
     // -player
     image(bolbNormal, 160, 60);
@@ -395,6 +396,7 @@ void draw(){
     image(bg, 0, 0, 1920, 1080);
     timeCountdown();
     showRound();
+    showCondition();
     
     // -player
     image(bolbNormal, 160, 60);
@@ -620,9 +622,20 @@ void showRound(){
   textAlign(CENTER);
   String roundString = "ROUND:" + (round+1);
   fill(0, 120);  
-  text(roundString, width/2, 200);
+  text(roundString, width/2-80, 200);
   fill(#00ffff);
-  text(roundString, width/2+10, 210);
+  text(roundString, width/2+10-80, 210);
+}
+
+void showCondition(){
+  textFont(abc,110);
+  textAlign(CENTER);
+  String roundString = "SET";
+  if (gameState == GAME_FIGHT)roundString = "ATTACK"
+  fill(0, 200);  
+  text(roundString, width/2-80, 200);
+  fill(#00ffff);
+  text(roundString, width/2+10-80, 210);
 }
 
 void timeCountdown(){ 
