@@ -2,7 +2,7 @@ class MiddleBottle extends Bottle{
   MiddleBottle(int camp, int col, int row){
     super(camp, col, row);
     water = 100;
-    damage = 1;
+    damage = 2;
     idleTime = 2;
     marchImg = (camp == RED) ? loadImage("img/bottle/redBottleMiddle.png") : loadImage("img/bottle/greenBottleMiddle.png");
     attackImg = (camp == RED) ? loadImage("img/bottle/redBottleMiddleFighting.png") : loadImage("img/bottle/greenBottleMiddleFighting.png");

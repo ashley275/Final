@@ -19,11 +19,14 @@ class Door extends Item{
          if(bottles[i][j].rows[c]!=-1 && bottles[i][j].col==col && bottles[i][j].rows[c]==row){
            isAlive = false;
          }
+         
        //other soldier die   
-       for(int a=0; a<2; a++){
-         for(int b=0; b<bottles[i].length; b++){
+       for(int a = 0; a < 2; a++){
+         for(int b=0; b < bottles[i].length; b++){
            for(int d=0; d<3; d++){             
-             if(bottles[a][b].col == bottles[i][j].col && bottles[a][b].rows[d]!=-1 && bottles[a][b].rows[d] == bottles[i][j].rows[c]-1) bottles[a][b].isAlive = false;
+             if(bottles[a][b] != null &&  !bottles[a][b].isAlive && bottles[i][j] != null
+             && bottles[a][b].col == bottles[i][j].col  && bottles[a][b].rows[d]!=-1
+             && bottles[a][b].rows[d] == bottles[i][j].rows[c]-1) bottles[a][b].isAlive = false;
              }             
            }
          }

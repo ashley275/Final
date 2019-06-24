@@ -53,7 +53,7 @@ final int SKIP_BUTTON_Y = 900;
 
 // -gamestate
 int gameState = 0;
-final int GAME_START = 0, GAME_INTRO=1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER = 4;
+final int GAME_START = 0, GAME_INTRO = 1, GAME_SET = 2, GAME_FIGHT = 3, GAME_OVER = 4;
 int round = 0;
 
 
@@ -82,18 +82,17 @@ final int BOTTLE_SMALL = 0, BOTTLE_MIDDLE = 1, BOTTLE_LARGE = 2;
 
 // -bottle
 int redBottleUsed, greenBottleUsed;
-int redSmallBottleAVL, redMiddleBottleAVL, redLargeBottleAVL;
-int greenSmallBottleAVL, greenMiddleBottleAVL, greenLargeBottleAVL;
-final int ROUND_ONE_SMALL_BOTTLE_NUM = 1;
-final int ROUND_ONE_MIDDLE_BOTTLE_NUM = 1;
-final int ROUND_ONE_LARGE_BOTTLE_NUM = 1;
-final int ROUND_TWO_SMALL_BOTTLE_NUM = 1;
-final int ROUND_TWO_MIDDLE_BOTTLE_NUM = 1;
-final int ROUND_TWO_LARGE_BOTTLE_NUM = 1;
-final int ROUND_THREE_SMALL_BOTTLE_NUM = 1;
-final int ROUND_THREE_MIDDLE_BOTTLE_NUM = 1;
-final int ROUND_THREE_LARGE_BOTTLE_NUM = 1;
-final int MAX_BOTTLE_NUM = 15;
+int [][] roundBottleNum = new int [3][3];
+ROUND_BOTTLE_NUM [1][BOTTLE_SMALL] = 5;
+ROUND_BOTTLE_NUM [1][BOTTLE_MIDDLE] = 2;
+ROUND_BOTTLE_NUM [1][BOTTLE_LARGE] = 1;
+ROUND_BOTTLE_NUM [2][BOTTLE_SMALL] = 15;
+ROUND_BOTTLE_NUM [2][BOTTLE_MIDDLE] = 5;
+ROUND_BOTTLE_NUM [2][BOTTLE_LARGE] = 3;
+ROUND_BOTTLE_NUM [2][BOTTLE_SMALL] = 15;
+ROUND_BOTTLE_NUM [2][BOTTLE_MIDDLE] = 5;
+ROUND_BOTTLE_NUM [2][BOTTLE_LARGE] = 3;
+final int MAX_BOTTLE_NUM = 54;
 
 // -land
 final int LAND_SIZE = 80;
@@ -560,6 +559,11 @@ void randomBall(){
   }
 }
 
+void addBottle(){
+  redBottleBar.number[BOTTLE_SMALL] = ROUND_ONE_SMALL_BOTTLE_NUM;
+  redBottleBar.number[BOTTLE_MIDDLE] = ROUND_ONE_MIDDLE_BOTTLE_NUM;
+}
+
 boolean isMouseHit(float bx, float by, float bw, float bh){
   return  mouseX > bx && 
           mouseX < bx + bw && 
@@ -712,7 +716,7 @@ void keyPressed(){
       }
       break;
       case 'c':
-      if(lands[redChooseCol][redChooseRow].camp == RED 
+      if(lands[redChooseCol][redChooseRow].camp == RED && redChooseCol < 6
       && !lands[redChooseCol][redChooseRow].hasBottle && !lands[redChooseCol][redChooseRow].hasItem
       && !lands[redChooseCol][redChooseRow + 1].hasBottle && !lands[redChooseCol][redChooseRow + 1].hasItem
       && !lands[redChooseCol][redChooseRow + 2].hasBottle && !lands[redChooseCol][redChooseRow + 2].hasItem){
@@ -748,7 +752,7 @@ void keyPressed(){
       }
       break;
       case '3':
-      if(lands[greenChooseCol][greenChooseRow].camp == GREEN 
+      if(lands[greenChooseCol][greenChooseRow].camp == GREEN && greenChooseCol < 6
       && !lands[greenChooseCol][greenChooseRow].hasBottle && !lands[greenChooseCol][greenChooseRow].hasItem
       && !lands[greenChooseCol][greenChooseRow + 1].hasBottle && !lands[greenChooseCol][greenChooseRow + 1].hasItem
       && !lands[greenChooseCol][greenChooseRow + 2].hasBottle && !lands[greenChooseCol][greenChooseRow + 2].hasItem){
