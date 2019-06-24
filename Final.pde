@@ -296,20 +296,31 @@ void draw(){
     break;
      
     case GAME_INTRO:
-    //int count;
-    //switch(count){
-    //  case 0:
-    //  image(gameread,0,0);
-    //  break;
-    //  case 1:
-    //  image(gameread2,0,0);
-    //  break;
-    //  case 2:
-    //  image(gameread3,0,0);         
-    //  break;
-    //  case 3:
-    //  gameState = GAME_SET;
-    //}
+    int count;
+    if(mousePressed)count++;
+    switch(count){
+      case 0:
+      image(gameread,0,0);
+      break;
+      case 1:
+      image(gameread2,0,0);
+      break;
+      case 2:
+      image(gameread3,0,0);         
+      break;
+      case 3:
+      image(gameread3,0,0);
+      break;
+      case 4:
+      image(gameread4,0,0);
+      break;      
+      case 5:
+      image(gameread5,0,0);
+      break;   
+      case 6:
+      gameState = GAME_SET;
+      break;
+    }
     if(SKIP_BUTTON_X + SKIP_BUTTON_WIDTH > mouseX
       && SKIP_BUTTON_X < mouseX
       && SKIP_BUTTON_Y + SKIP_BUTTON_HEIGHT > mouseY
