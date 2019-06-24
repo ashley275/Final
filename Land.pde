@@ -2,20 +2,15 @@ class Land{
   int col, row, camp;
   boolean hasBottle = false;
   boolean hasItem = false;
-  PImage img;
+  PImage redLand, greenLand;
   
   Land(int col, int row, int camp){
     this.col = col;
     this.row = row;
     this.camp = camp;
-    
-    switch(camp){
-      case RED:
-      case OWNERLESS:
-      img = loadImage("img/land/redLand.png");
-      break;      
-      default: img = loadImage("img/land/greenLand.png");break;
-    }
+
+    redLand = loadImage("img/land/redLand.png");      
+    greenLand = loadImage("img/land/greenLand.png");
   }
   
   void cheeosUnlocked(){    
@@ -24,6 +19,7 @@ class Land{
   }
   
   void display(){
-    image(img, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
+    if(camp == RED) image(redLand, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
+    else image(greenLand, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
   }
 }

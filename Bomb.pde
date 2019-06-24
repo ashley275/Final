@@ -1,35 +1,32 @@
-//class Bomb extends Item{ 
+class Bomb extends Item{ 
   
-//  Bomb(int col, int row){
-//    super(col,row);
-//    imgPick = bombball;
-//    imgUse = bomb;
-    
-//  }
-//  void display(){
-//    /*int showTimer;*/
-//    if(isAlive==true){
-//      if(itemState == ITEM_PICK_STATE){
-//        image(imgPick, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
-//      }
-//      //if(itemState == ITEM_USE_STATE ){
-//      //  image(imgUse, x-LAND_SIZE, y-LAND_SIZE);
-//      //  /*showTimer = 40;
-//      //  showTimer--;
-//      //  if(showTimer<0) isAlive = false ;*/
-//      //}
-//    }
-//  }
+  Bomb(int col, int row){
+    super(col,row);
+    img = bomb;    
+  }
+  
+  void display(){
+    boolean isAliveImg = true;
+    if(isAliveImg) image(img, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
+    int showTimer=40;
+    showTimer--;
+    if(showTimer<0) isAliveImg = false ;
+  }
+  
+  void use(){
+    for(int i=0; i<2; i++){
+      for(int j=0; j<bottles[i].length; j++){
+        if(bottles[i][j] == null || !bottles[i][j].isAlive) continue;
 
-//  void checkCollision(){
-//    super.checkCollision();
-//    if(camp == RED) redItemBar.barNumber[TRAP]++;
-//    else if(camp == green) greenItemBar.barNumber[TRAP]++;
-//  }
-//  // void collision(Bottle bottle){ 
-       
-//  //      bottle.water-=10;
-        
-        
-//  //  }
-//  }
+        for(int a = 0; a < bottles[i][j].rows.length; a++){
+          if(bottles[i][j].rows[a]!=-1 && row+2 > bottles[i][j].rows[a] && row-2 < bottles[i][j].rows[a]){
+            if(col+2 > bottles[i][j].col && col-2 < bottles[i][j].col){
+              bottles[i][j].isAlive = false;
+              isAlive = false;
+            }
+          }
+        }
+      }
+    }
+  }
+}

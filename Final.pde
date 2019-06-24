@@ -437,9 +437,9 @@ void draw(){
           }
         }
       }
-     
+    if(redTowerHP <= 0 || greenTowerHP <= 0) gameState = GAME_OVER; 
     if(gameTimer == 0){
-      if(redTowerHP <= 0 || greenTowerHP <= 0 || round == 2) gameState = GAME_OVER;
+      if(round == 2) gameState = GAME_OVER;
       else{
         round++;
         gameState = GAME_SET;
@@ -635,8 +635,8 @@ void choose(){
 }
 
 void keyPressed(){
-  //if(gameState == GAME_READ) count++;
-  if(gameState == GAME_SET){
+  switch(gameState){
+    case GAME_SET:
     if(key==CODED){
       //Green choose
       switch(keyCode){
@@ -666,8 +666,8 @@ void keyPressed(){
       break;
       }
     }
-      //Red choose
-      switch(key){
+    //Red choose
+    switch(key){
       case 'a':
       if(redChooseCol > 0 && lands[redChooseCol - 1][redChooseRow].camp == RED){
         redChooseX -= 80;
@@ -693,303 +693,311 @@ void keyPressed(){
       }
       break;
       
-      //Put red bottle
-    case 'z':
-    if(lands[redChooseCol][redChooseRow].hasBottle == false ){
-    bottles[0][redBottleUsed] = new SmallBottle(RED, redChooseCol, redChooseRow);
-    redBottleUsed++;
-    redSmallBottleAVL--;
-    lands[redChooseCol][redChooseRow].hasBottle = true;
-    }
-    break;
-    case 'x':
-    if(lands[redChooseCol][redChooseRow].hasBottle == false
-    && redChooseCol > 0 && redChooseCol < 19
-    && redChooseRow > 0 && redChooseRow < 7){
-    bottles[0][redBottleUsed] = new MiddleBottle(RED, redChooseCol, redChooseRow);
-    redBottleUsed++;
-    redMiddleBottleAVL--;
-    lands[redChooseCol][redChooseRow].hasBottle = true;
-    }
-    break;
-    case 'c':
-    if(redChooseRow < 6 && lands[redChooseCol][redChooseRow].hasBottle == false
-    && lands[redChooseCol][redChooseRow + 1].hasBottle == false
-    && lands[redChooseCol][redChooseRow + 2].hasBottle == false){
-    bottles[0][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
-    redBottleUsed++;
-    redLargeBottleAVL--;
-    for(int i = 0; i < 3; i++){
-    lands[redChooseCol][redChooseRow + i].hasBottle = true;
-    }
-    }
-    break;
+    //Put red bottle
+      case 'z':
+      if(lands[redChooseCol][redChooseRow].hasBottle == false ){
+        bottles[0][redBottleUsed] = new SmallBottle(RED, redChooseCol, redChooseRow);
+        redBottleUsed++;
+        redSmallBottleAVL--;
+        lands[redChooseCol][redChooseRow].hasBottle = true;
+      }
+      break;
+      case 'x':
+      if(lands[redChooseCol][redChooseRow].hasBottle == false
+      && redChooseCol > 0 && redChooseCol < 19
+      && redChooseRow > 0 && redChooseRow < 7){
+        bottles[0][redBottleUsed] = new MiddleBottle(RED, redChooseCol, redChooseRow);
+        redBottleUsed++;
+        redMiddleBottleAVL--;
+        lands[redChooseCol][redChooseRow].hasBottle = true;
+      }
+      break;
+      case 'c':
+      if(redChooseRow < 6 && lands[redChooseCol][redChooseRow].hasBottle == false
+      && lands[redChooseCol][redChooseRow + 1].hasBottle == false
+      && lands[redChooseCol][redChooseRow + 2].hasBottle == false){
+        bottles[0][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
+        redBottleUsed++;
+        redLargeBottleAVL--;
+        for(int i = 0; i < 3; i++){
+          lands[redChooseCol][redChooseRow + i].hasBottle = true;
+        }
+      }
+      break;
     
     //Put green bottle
-    case '1':
-    if(lands[greenChooseCol][greenChooseRow].hasBottle == false){
-    bottles[1][greenBottleUsed] = new SmallBottle(GREEN, greenChooseCol, greenChooseRow);
-    greenBottleUsed++;
-    greenSmallBottleAVL--;
-    lands[greenChooseCol][greenChooseRow].hasBottle = true;
+      case '1':
+      if(lands[greenChooseCol][greenChooseRow].hasBottle == false){
+        bottles[1][greenBottleUsed] = new SmallBottle(GREEN, greenChooseCol, greenChooseRow);
+        greenBottleUsed++;
+        greenSmallBottleAVL--;
+        lands[greenChooseCol][greenChooseRow].hasBottle = true;
+      }
+      break;
+      case '2':
+      if(lands[greenChooseCol][greenChooseRow].hasBottle == false
+      && greenChooseCol > 0 && greenChooseCol < 19
+      && greenChooseRow > 0 && greenChooseRow < 7){
+        bottles[1][greenBottleUsed] = new MiddleBottle(GREEN, greenChooseCol, greenChooseRow);
+        greenBottleUsed++;
+        greenMiddleBottleAVL--;
+        lands[greenChooseCol][greenChooseRow].hasBottle = true;
+      }
+      break;
+      case '3':
+      if(greenChooseRow < 6 && lands[greenChooseCol][greenChooseRow].hasBottle == false
+      && lands[greenChooseCol][greenChooseRow + 1].hasBottle == false
+      && lands[greenChooseCol][greenChooseRow + 2].hasBottle == false){
+        bottles[1][greenBottleUsed] = new LargeBottle(GREEN, greenChooseCol, greenChooseRow);
+        greenBottleUsed++;
+        greenLargeBottleAVL--;
+        for(int i = 0; i < 3; i++){
+          lands[greenChooseCol][greenChooseRow + i].hasBottle = true;
+        }
+      }
+      break;
     }
-    break;
-    case '2':
-    if(lands[greenChooseCol][greenChooseRow].hasBottle == false
-    && greenChooseCol > 0 && greenChooseCol < 19
-    && greenChooseRow > 0 && greenChooseRow < 7){
-    bottles[1][greenBottleUsed] = new MiddleBottle(GREEN, greenChooseCol, greenChooseRow);
-    greenBottleUsed++;
-    greenMiddleBottleAVL--;
-    lands[greenChooseCol][greenChooseRow].hasBottle = true;
-    }
-    break;
-    case '3':
-    if(greenChooseRow < 6 && lands[greenChooseCol][greenChooseRow].hasBottle == false
-    && lands[greenChooseCol][greenChooseRow + 1].hasBottle == false
-    && lands[greenChooseCol][greenChooseRow + 2].hasBottle == false){
-    bottles[1][greenBottleUsed] = new LargeBottle(GREEN, greenChooseCol, greenChooseRow);
-    greenBottleUsed++;
-    greenLargeBottleAVL--;
-    for(int i = 0; i < 3; i++){
-    lands[greenChooseCol][greenChooseRow + i].hasBottle = true;
-    }
-    }
-    break;
-    }
-    }
+  }
     
-  if(gameState == GAME_FIGHT){
-    switch(keyCode){
-      case LEFT:
-      if(greenChooseCol > 0 && lands[greenChooseCol - 1][greenChooseRow].camp == GREEN){
+  case GAME_FIGHT:
+  switch(keyCode){
+    case LEFT:
+    if(greenChooseCol > 0){
       greenChooseX -= 80;
       greenChooseCol -= 1;
-      }
-      break;
-      case RIGHT:
-      if(greenChooseCol < 19 && lands[greenChooseCol + 1][greenChooseRow].camp == GREEN){
+    }
+    break;
+    case RIGHT:
+    if(greenChooseCol < 19){
       greenChooseX += 80;
       greenChooseCol += 1;
-      }
-      break;
-      case DOWN:
-      if(greenChooseRow < 7 && lands[greenChooseCol][greenChooseRow + 1].camp == GREEN){
+    }
+    break;
+    case DOWN:
+    if(greenChooseRow < 7){
       greenChooseY += 80;
       greenChooseRow += 1;
-      }
-      break;
-      case UP:
-      if(greenChooseRow > 0 && lands[greenChooseCol][greenChooseRow - 1].camp == GREEN){
+    }
+    break;
+    case UP:
+    if(greenChooseRow > 0){
       greenChooseY -= 80;
       greenChooseRow -= 1;
-      }
-      break;
-      }
+    }
+    break;
+  }
     
     
-    switch(key){
-      case 'a':
-        if(redChooseCol > 0 && lands[redChooseCol - 1][redChooseRow].camp == RED){
-        redChooseX -= 80;
-        redChooseCol -= 1;
-        }
-        break;
-        case 'd':
-        if(redChooseCol < 19 && lands[redChooseCol + 1][redChooseRow].camp == RED){
-        redChooseX += 80;
-        redChooseCol += 1;
-        }
-        break;
-        case 's':
-        if(redChooseRow < 7 && lands[redChooseCol][redChooseRow + 1].camp == RED){
-        redChooseY += 80;
-        redChooseRow += 1;
-        }
-        break;
-        case 'w':
-        if(redChooseRow > 0 && lands[redChooseCol][redChooseRow - 1].camp == RED){
-        redChooseY -= 80;
-        redChooseRow -= 1;
-        }
-        break;
+  switch(key){
+    case 'a':
+    if(redChooseCol > 0){
+      redChooseX -= 80;
+      redChooseCol -= 1;
+    }
+    break;
+    case 'd':
+    if(redChooseCol < 19){
+      redChooseX += 80;
+      redChooseCol += 1;
+    }
+    break;
+    case 's':
+    if(redChooseRow < 7){
+      redChooseY += 80;
+      redChooseRow += 1;
+    }
+    break;
+    case 'w':
+    if(redChooseRow > 0){
+      redChooseY -= 80;
+      redChooseRow -= 1;
+    }
+    break;
        
         
         
-      //case  'z' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 1 && redItemBar.barNumber[BLOOD]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         redItemBar.barNumber[BLOOD]--;                
-     //         items[k].x=redChooseX;
-     //         items[k].y=redChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  'x' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 2 && redItemBar.barNumber[BANANA]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         redItemBar.barNumber[BANANA]--;                
-     //         items[k].x=redChooseX;
-     //         items[k].y=redChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  'c' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 3 && redItemBar.barNumber[DOOR]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         redItemBar.barNumber[DOOR]--;                
-     //         items[k].x=redChooseX;
-     //         items[k].y=redChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  'v' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null ){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 4 && redItemBar.barNumber[BOMB]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         redItemBar.barNumber[BOMB]--;                
-     //         items[k].x=redChooseX;
-     //         items[k].y=redChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  'b' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 5 && redItemBar.barNumber[ICE]>0){
+    case  'z' :
+    if(lands[redChooseCol][redChooseRow].hasItem == false){
+      items[BLOOD][redBottleUsed] = new LargeBottle(RED, redChooseCol, redChooseRow);
+        redBottleUsed++;
+        redLargeBottleAVL--;
+        for(int i = 0; i < 3; i++){
+          lands[redChooseCol][redChooseRow + i].hasBottle = true;
+        }
+      }
+    for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 1 && redItemBar.barNumber[BLOOD]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              redItemBar.barNumber[BLOOD]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  'x' :
+      for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 2 && redItemBar.barNumber[BANANA]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              redItemBar.barNumber[BANANA]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  'c' :
+      for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 3 && redItemBar.barNumber[DOOR]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              redItemBar.barNumber[DOOR]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  'v' :
+      for(int k=0; k<items.length; k++){
+        if(items[k]!= null ){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 4 && redItemBar.barNumber[BOMB]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              redItemBar.barNumber[BOMB]--;                
+              items[k].x=redChooseX;
+              items[k].y=redChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  'b' :
+      for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 5 && redItemBar.barNumber[ICE]>0){
               
-     //         redItemBar.barNumber[ICE]--;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  'n' :
-     //   for(int k=0; k<items.length; k++){
-     //     if(items[k]!= null ){
-     //       if(items[k].itemState == ITEM_USE_STATE){
-     //         if(items[k].itemKind == 6 && redItemBar.barNumber[TRAP]>0){
-     //           items[k].isAlive = true;
-     //           items[k].display();
-     //           redItemBar.barNumber[TRAP]--;                
-     //           items[k].x=redChooseX;
-     //           items[k].y=redChooseY;
-     //         }
-     //       }
-     //     }
-     //   }
-     //     break ;
-     // case  '1' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 1 && greenItemBar.barNumber[BLOOD]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         greenItemBar.barNumber[BLOOD]--;                
-     //         items[k].x=greenChooseX;
-     //         items[k].y=greenChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  '2' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 2 && greenItemBar.barNumber[BANANA]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         greenItemBar.barNumber[BANANA]--;                
-     //         items[k].x=greenChooseX;
-     //         items[k].y=greenChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  '3' :
-     //  for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 3 && greenItemBar.barNumber[DOOR]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         greenItemBar.barNumber[DOOR]--;                
-     //         items[k].x=greenChooseX;
-     //         items[k].y=greenChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  '4' :
-     // for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null ){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 4 && greenItemBar.barNumber[BOMB]>0){
-     //         items[k].isAlive = true;
-     //         items[k].display();
-     //         greenItemBar.barNumber[BOMB]--;                
-     //         items[k].x=greenChooseX;
-     //         items[k].y=greenChooseY;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  '5' :
-     //for(int k=0; k<items.length; k++){
-     //   if(items[k]!= null){
-     //     if(items[k].itemState == ITEM_USE_STATE){
-     //       if(items[k].itemKind == 5 && greenItemBar.barNumber[ICE]>0){
+              redItemBar.barNumber[ICE]--;
+            }
+          }
+        }
+      }
+          break ;
+      case  'n' :
+        for(int k=0; k<items.length; k++){
+          if(items[k]!= null ){
+            if(items[k].itemState == ITEM_USE_STATE){
+              if(items[k].itemKind == 6 && redItemBar.barNumber[TRAP]>0){
+                items[k].isAlive = true;
+                items[k].display();
+                redItemBar.barNumber[TRAP]--;                
+                items[k].x=redChooseX;
+                items[k].y=redChooseY;
+              }
+            }
+          }
+        }
+          break ;
+      case  '1' :
+      for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 1 && greenItemBar.barNumber[BLOOD]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              greenItemBar.barNumber[BLOOD]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  '2' :
+      for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 2 && greenItemBar.barNumber[BANANA]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              greenItemBar.barNumber[BANANA]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  '3' :
+       for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 3 && greenItemBar.barNumber[DOOR]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              greenItemBar.barNumber[DOOR]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  '4' :
+      for(int k=0; k<items.length; k++){
+        if(items[k]!= null ){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 4 && greenItemBar.barNumber[BOMB]>0){
+              items[k].isAlive = true;
+              items[k].display();
+              greenItemBar.barNumber[BOMB]--;                
+              items[k].x=greenChooseX;
+              items[k].y=greenChooseY;
+            }
+          }
+        }
+      }
+          break ;
+      case  '5' :
+     for(int k=0; k<items.length; k++){
+        if(items[k]!= null){
+          if(items[k].itemState == ITEM_USE_STATE){
+            if(items[k].itemKind == 5 && greenItemBar.barNumber[ICE]>0){
               
-     //         greenItemBar.barNumber[ICE]--;
-     //       }
-     //     }
-     //   }
-     // }
-     //     break ;
-     // case  '6' :
-     // for(int k=0; k<items.length; k++){
-     //     if(items[k]!= null ){
-     //       if(items[k].itemState == ITEM_USE_STATE){
-     //         if(items[k].itemKind == 6 && greenItemBar.barNumber[TRAP]>0){
-     //           items[k].isAlive = true;
-     //           items[k].display();
-     //           greenItemBar.barNumber[TRAP]--;                
-     //           items[k].x=greenChooseX;
-     //           items[k].y=greenChooseY;
-     //         }
-     //       }
-     //     }
-     //   }
-     //     break ;    
+              greenItemBar.barNumber[ICE]--;
+            }
+          }
+        }
+      }
+          break ;
+      case  '6' :
+      for(int k=0; k<items.length; k++){
+          if(items[k]!= null ){
+            if(items[k].itemState == ITEM_USE_STATE){
+              if(items[k].itemKind == 6 && greenItemBar.barNumber[TRAP]>0){
+                items[k].isAlive = true;
+                items[k].display();
+                greenItemBar.barNumber[TRAP]--;                
+                items[k].x=greenChooseX;
+                items[k].y=greenChooseY;
+              }
+            }
+          }
+        }
+          break ;    
 
   }
   }
