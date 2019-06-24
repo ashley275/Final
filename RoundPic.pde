@@ -1,11 +1,12 @@
 class RoundPic{
 
 boolean isAlive = false;
-float picX, picY;   
+int picX, picY; 
+int showTimer = 20;
 
 RoundPic(){
-
-  picX = -960;
+  isAlive = true;
+  picX = -1920;
   picY = 0;
   round1 = loadImage("img/page/round1.png");
   round2 = loadImage("img/page/round2.png");
@@ -18,9 +19,9 @@ void display(){
     else if(round == 1 ) image(round2,picX,picY);
     else if(round == 2 ) image(round3,picX,picY);
   }
-  int showTimer = 400;
+  
   showTimer--;
-  if(showTimer<=0)isAlive = false;
-  picX+=500;
+  if(showTimer <= 0) isAlive = false;
+  picX += (1920 * 2 / 20);
   } 
 }

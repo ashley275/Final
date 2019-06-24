@@ -9,6 +9,11 @@ class Item {
   
   void use(){
   }
+  
+  void die(){
+    isAlive = false;
+    lands[col][row].hasItem = false;
+  }
 
   Item(int col, int row){
     isAlive = true;
