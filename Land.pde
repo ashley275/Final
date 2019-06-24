@@ -21,5 +21,6 @@ class Land{
   void display(){
     if(camp == RED) image(redLand, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
     else image(greenLand, 160 + col * LAND_SIZE, 220 + row * LAND_SIZE);
+    if(hasBottle) text(8, 200 + col * LAND_SIZE, 240 + row * LAND_SIZE);
   }
 }

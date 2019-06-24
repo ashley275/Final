@@ -30,21 +30,17 @@ class Bottle{
   }
   
   void move(){
-    if(update){
-      for(int i = 0; i < rows.length; i++){
-        if(water <= 0){
-          isAlive = false;
-          bottleDie.play();
-          if(rows[i] != -1){
-            lands[col][rows[i]].hasBottle = false;
-          }
-        }else if(reconEnemy() == -2){      
+    if(update){      
+      if(water <= 0){
+        die();
+      }else if(reconEnemy() == -2){
+        for(int i = 0; i < rows.length; i++){
           if(rows[i] != -1 && lands[col + camp][rows[i]].hasBottle){
             movement = STOP;
             break;
           }else movement = MARCH;
-        }else movement = ATTACK;
-      }
+        }
+      }else movement = ATTACK;
     }
     
     switch(movement){
@@ -55,7 +51,7 @@ class Bottle{
       attack();
       break;      
       case STOP:
-      marchTimer = (walkingTime + idleTime) * timeUnit;println(1);
+      marchTimer = (walkingTime + idleTime) * timeUnit;
       break;
     }
   }
@@ -128,6 +124,14 @@ class Bottle{
      lands[col][row].camp = camp;
      lands[col][row].hasBottle = true;
      lands[col - camp][row].hasBottle = false;
+    }
+  }
+  
+  void die(){
+    isAlive = false;
+    bottleDie.play();
+    for(int i = 0; i < rows.length; i++){
+      if(rows[i] != -1) lands[col][rows[i]].hasBottle = false;
     }
   }
     
