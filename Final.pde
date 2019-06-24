@@ -710,7 +710,7 @@ void timeCountdown(){
     textcolor = #ff6600;
   }else textcolor = #ff0000;
   
-  fill(0, textcolor);  
+  fill(textcolor);  
   text(timeString, width/2, 100);
   fill(#00ffff);
   text(timeString, width/2+10, 110);
