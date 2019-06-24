@@ -296,20 +296,31 @@ void draw(){
     break;
      
     case GAME_INTRO:
-    //int count;
-    //switch(count){
-    //  case 0:
-    //  image(gameread,0,0);
-    //  break;
-    //  case 1:
-    //  image(gameread2,0,0);
-    //  break;
-    //  case 2:
-    //  image(gameread3,0,0);         
-    //  break;
-    //  case 3:
-    //  gameState = GAME_SET;
-    //}
+    int count;
+    if(mousePressed)count++;
+    switch(count){
+      case 0:
+      image(gameread,0,0);
+      break;
+      case 1:
+      image(gameread2,0,0);
+      break;
+      case 2:
+      image(gameread3,0,0);         
+      break;
+      case 3:
+      image(gameread3,0,0);
+      break;
+      case 4:
+      image(gameread4,0,0);
+      break;      
+      case 5:
+      image(gameread5,0,0);
+      break;   
+      case 6:
+      gameState = GAME_SET;
+      break;
+    }
     if(SKIP_BUTTON_X + SKIP_BUTTON_WIDTH > mouseX
       && SKIP_BUTTON_X < mouseX
       && SKIP_BUTTON_Y + SKIP_BUTTON_HEIGHT > mouseY
@@ -332,6 +343,7 @@ void draw(){
     image(bg, 0, 0, 1920, 1080);
     timeCountdown();
     showRound();
+    showCondition();
     
     // -player
     image(bolbNormal, 160, 60);
@@ -395,6 +407,7 @@ void draw(){
     image(bg, 0, 0, 1920, 1080);
     timeCountdown();
     showRound();
+    showCondition();
     
     // -player
     image(bolbNormal, 160, 60);
@@ -467,12 +480,12 @@ void draw(){
 
     // TEXT
     String winnerText;    
-    if(redTowerHP <= 0 ||  redLandNum < greenLandNum){
+    if(redTowerHP <= 0 ||  (redTowerHP>0 && greenTowerHP>0 && redLandNum < greenLandNum)){
       fill(0);
       winnerText = "THE WINNER IS KAPPA!";
       image(kappaAward, 340, 575, 460, 200);
       image(bolbNormal, 1220, 600);
-    }else if(greenTowerHP <= 0 || redLandNum > greenLandNum){
+    }else if(greenTowerHP <= 0 || (redTowerHP>0 && greenTowerHP>0 && redLandNum > greenLandNum)){
       winnerText = "THE WINNER IS BOLB!";
       image(bolbAward, 340, 575);
       image(kappaNormal, 1220, 600, 460, 200);
@@ -666,9 +679,20 @@ void showRound(){
   textAlign(CENTER);
   String roundString = "ROUND:" + (round+1);
   fill(0, 120);  
-  text(roundString, width/2, 200);
+  text(roundString, width/2-100, 200);
   fill(#00ffff);
-  text(roundString, width/2+10, 210);
+  text(roundString, width/2+10-100, 210);
+}
+
+void showCondition(){
+  textFont(abc,110);
+  textAlign(CENTER);
+  String roundString = "SET";
+  if (gameState == GAME_FIGHT)roundString = "FIGHT"
+  fill(0, 200);  
+  text(roundString, width/2-100, 200);
+  fill(#00ffff);
+  text(roundString, width/2+10-100, 210);
 }
 
 void timeCountdown(){ 
@@ -676,11 +700,22 @@ void timeCountdown(){
   textAlign(CENTER);
   String timeString = convertFrameToTimeString(gameTimer);
   timeString = "TIME:" + timeString;
-  fill(0, 120);  
+  
+  int textcolor = 0;
+  if(gameTimer >= 120){
+    textcolor = 120;
+  }else if(gameTimer >= 80){
+    textcolor = #00ffff;;
+  }else if(gameTimer >= 40){
+    textcolor = #ff6600;
+  }else #ff0000;
+  
+  fill(0, textcolor);  
   text(timeString, width/2, 100);
   fill(#00ffff);
   text(timeString, width/2+10, 110);
   
+
   
 }
 
