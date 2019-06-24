@@ -622,9 +622,9 @@ void showRound(){
   textAlign(CENTER);
   String roundString = "ROUND:" + (round+1);
   fill(0, 120);  
-  text(roundString, width/2-80, 200);
+  text(roundString, width/2-100, 200);
   fill(#00ffff);
-  text(roundString, width/2+10-80, 210);
+  text(roundString, width/2+10-100, 210);
 }
 
 void showCondition(){
@@ -633,9 +633,9 @@ void showCondition(){
   String roundString = "SET";
   if (gameState == GAME_FIGHT)roundString = "FIGHT"
   fill(0, 200);  
-  text(roundString, width/2-80, 200);
+  text(roundString, width/2-100, 200);
   fill(#00ffff);
-  text(roundString, width/2+10-80, 210);
+  text(roundString, width/2+10-100, 210);
 }
 
 void timeCountdown(){ 
